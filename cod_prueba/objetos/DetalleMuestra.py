@@ -5,9 +5,9 @@ class DetalleMuestra:
 
     def getDatos(self):
         for dato in self.tipoDato:
-        return{
-            tipoDato.getDenominacion()
-            tipoDato.getUnidad()
-            tipoDato.getValor()
-        }
+            return{
+                "denominacion": tipoDato.getDenominacion(),
+                "unidad": tipoDato.getUnidad(),
+                "valor": tipoDato.getValor()
+            }
         

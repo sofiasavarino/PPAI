@@ -64,7 +64,7 @@ def main():
     gestor = Gestor(lista_eventos=lista_eventos, pantalla=None)
     pantalla = PantallaRegistrarResultado(gestor)
     gestor.pantalla = pantalla
-    pantalla.habilitar()
+    pantalla.opcRegistrarResultado()
 
     pantalla.root.mainloop()
 

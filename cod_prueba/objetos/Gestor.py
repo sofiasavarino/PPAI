@@ -133,9 +133,13 @@ class Gestor:
         self.accionSeleccionada = None
 
     def opcRegistrarResultado(self):
+        # if self.pantalla:
+        #     self.pantalla.opcionRegistrarResultado()
+        #     print("Registrar resultado manual")
+        # else:
+        #     print("No hay pantalla asignada en Gestor")
         if self.pantalla:
-            self.pantalla.opcionRegistrarResultado()
-            print("Registrar resultado manual")
+            self.buscarEventosAutoDetectados()
         else:
             print("No hay pantalla asignada en Gestor")
 
@@ -145,12 +149,13 @@ class Gestor:
             if evento.sosAutoDetectado():
                 datosEvento = evento.obtenerDatos()
                 eventos_auto_detectados.append(datosEvento)
+        self.pantalla.presentarEventos(eventos_auto_detectados)
         return eventos_auto_detectados
 
-    def ordenarPorFechayHora(self, eventos):
-        eventos.sort(key=lambda x: x["fechaHoraOcurrencia"])
-        return eventos
-
+    def ordenarPorFechayHora(self, eventos_auto_detectados):
+        eventos_auto_detectados.sort(key=lambda x: x["fechaHoraOcurrencia"])
+        return eventos_auto_detectados
+    
     def bloquearEvento(self):
         if self.eventoSismicoSeleccionado:
             self.eventoSismicoSeleccionado.bloquear()
