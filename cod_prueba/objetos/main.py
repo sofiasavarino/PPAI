@@ -3,11 +3,18 @@ from Gestor import Gestor
 from PantallaRegistrarResultado import PantallaRegistrarResultado
 from Estado import Estado
 from EventoSismico import EventoSismico
+from Sesion import Sesion
+from Usuario import Usuario
+from Empleado import Empleado
 
 def main():
     # Crear estados de ejemplo
-    estado_auto = Estado(nombre="Auto Detectado", ambito="EventoSismico", descripcion="Detectado automáticamente")
-    estado_manual = Estado(nombre="Manual", ambito="EventoSismico", descripcion="Cargado manualmente")
+    estado_auto = Estado(nombre="Auto Detectado", ambito="Evento Sismico", descripcion="Detectado automáticamente")
+    estado_manual = Estado(nombre="Manual", ambito="Evento Sismico", descripcion="Cargado manualmente")
+    estado_bloqueado = Estado(nombre="Bloqueado", ambito="Evento Sismico", descripcion="Bloqueado por el sistema")
+    estado_rechazado = Estado(nombre="Rechazado", ambito="Evento Sismico", descripcion="Rechazado por el usuario")
+
+    lista_estados = [estado_auto, estado_manual, estado_bloqueado, estado_rechazado]
 
     # Crear eventos sísmicos de ejemplo
     evento1 = EventoSismico(
@@ -61,12 +68,33 @@ def main():
 
     lista_eventos = [evento1, evento2, evento3]
 
-    gestor = Gestor(lista_eventos=lista_eventos, pantalla=None)
+    sesion = Sesion(
+        fechaHoraDesde=datetime(2024, 6, 1, 12, 0),
+        fechaHoraHasta=datetime(2024, 6, 2, 16, 0),
+        usuario=usuario1,
+    )
+
+    usuario1 = Usuario(
+        nombreUsuario="Usuario Test",
+        contrasena="contrasena123",
+    )
+
+    empleado1 = Empleado(
+        nombre="Empleado Test",
+        apellido="Apellido Test",
+        mail="sjasaijsia",
+        telefono="123456789",
+        usuario=usuario1,
+    )
+
+
+    gestor = Gestor(sesion, lista_eventos=lista_eventos, lista_estados= lista_estados, estado = Estado, pantalla=None)
     pantalla = PantallaRegistrarResultado(gestor)
     gestor.pantalla = pantalla
     pantalla.opcRegistrarResultado()
 
     pantalla.root.mainloop()
+    print(gestor.eventoSismicoSeleccionado)
 
 if __name__ == "__main__":
     main()

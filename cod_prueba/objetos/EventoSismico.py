@@ -55,15 +55,20 @@ class EventoSismico:
         origenSismo = self.origenSismo.getNombre()
         return nombreSismo, clasificacionSismo, origenSismo
 
-    def bloquear(self):
-        self.eventoSismicoSeleccionado.buscarCambioEstadoEvento()
-    
-    def buscarCambioEstadoEvento(self, lista_cambio_estado):
-        for cambio in lista_cambio_estado:
+    # def bloquear(self):
+    #     self.buscarCambioEstadoEvento()}
+    def bloquear(self, estado_bloqueado):
+    # Crear un nuevo cambio de estado y asociarlo
+        nuevo_cambio = self.crearCambioEstado(estado_bloqueado)
+        self.cambioEstado.append(nuevo_cambio)
+        self.estado = estado_bloqueado
+
+    def buscarCambioEstadoEvento(self):
+        for cambio in self.cambioEstado:
             if cambio.esUltimo(cambio):
                 cambio.setFechaHoraFin()
-        self.eventoSismicoSeleccionado.crearCambioEstado(self.estado)
-                
+        self.crearCambioEstado(self.estado)
+
     def crearCambioEstado(self, estado):
         nuevo_cambio = CambioEstado(
             fechaHoraInicio=datetime.now(),

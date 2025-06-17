@@ -44,9 +44,7 @@ class PantallaRegistrarResultado:
                     f"  Long Hipocentro: {evento['longitudHipocentro']}\n"
                     f"  Magnitud: {evento['valorMagnitud']}\n"
                 )
-                # texto = (
-                #     f"{idx + 1}: \n {evento}"
-                # )
+                
                 frame = tk.Frame(self.root, relief=tk.RIDGE, borderwidth=2)
                 frame.pack(fill=tk.X, padx=10, pady=5)
                 tk.Label(frame, text=texto, justify=tk.LEFT, anchor="w").pack(side=tk.LEFT, padx=5)
@@ -56,17 +54,19 @@ class PantallaRegistrarResultado:
             messagebox.showinfo("Sin eventos", "No hay eventos sísmicos para revisar.")
 
     def opcSeleccionarEvento(self, eventos, idx):
-        self.gestor.eventoSismicoSeleccionado = eventos[idx]
+        #self.gestor.eventoSismicoSeleccionado = eventos[idx]
         messagebox.showinfo("Evento seleccionado", f"Seleccionaste el evento {idx+1}")
-
+        self.gestor.seleccionarEventoSismico(eventos[idx])
+        
+    
     def habilitarOpcionMapaSismico(self):
-        print("Se habilita opción para mapa sísmico")
+        messagebox.showinfo("Se habilita opción para mapa sísmico")
 
     def solicitarOpcionVisualizarMapa(self):
-        print("Mapa sísmico mostrado (simulado)")
+        messagebox.showinfo("Mapa sísmico mostrado (simulado)")
 
     def habilitarOpcionModificacionDatos(self):
-        print("Se habilita opción para modificar magnitud, alcance u origen")
+        messagebox.showinfo("Se habilita opción para modificar magnitud, alcance u origen")
 
     def solicitarOpcionModifiacionDatos(self):
         print("Simular modificación de datos del evento (opcional)")

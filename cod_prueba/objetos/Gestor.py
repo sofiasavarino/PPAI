@@ -112,26 +112,27 @@
 
 #     def finCU(self):
 #         return print("Fin del caso de uso")
-
+from tkinter import messagebox
 class Gestor:
-    def __init__(self, lista_eventos, pantalla=None):
+    def __init__(self,sesion, lista_eventos,lista_estados, pantalla=None, estado = None, empleado=None):
         # Guardar la lista completa de eventos (auto detectados o no)
         self.lista_eventos = lista_eventos
         self.eventoSismicoSeleccionado = None
         self.pantalla = pantalla
+        self.lista_estados = lista_estados
         # Otros atributos inicializados en None o valores por defecto
         self.eventoBloqueadoEnRevision = None
         self.detalleEventoSismico = None
-        self.usuarioLogueado = None
+        self.usuarioLogueado = sesion
         self.eventoRechazado = None
         self.fechaHoraOcurrenciaEvento = None
         self.clasificacionEvento = None
         self.eventoSismico = None
-        self.estado = None
-        self.empleado = None
-        self.sesion = None
+        self.estado = estado
+        # self.empleado = empleado
+        # self.sesion = sesion
         self.accionSeleccionada = None
-
+        
     def opcRegistrarResultado(self):
         # if self.pantalla:
         #     self.pantalla.opcionRegistrarResultado()
@@ -149,19 +150,106 @@ class Gestor:
             if evento.sosAutoDetectado():
                 datosEvento = evento.obtenerDatos()
                 eventos_auto_detectados.append(datosEvento)
-        self.pantalla.presentarEventos(eventos_auto_detectados)
-        return eventos_auto_detectados
+        self.ordenarPorFechayHora(eventos_auto_detectados)
 
     def ordenarPorFechayHora(self, eventos_auto_detectados):
         eventos_auto_detectados.sort(key=lambda x: x["fechaHoraOcurrencia"])
-        return eventos_auto_detectados
-    
-    def bloquearEvento(self):
-        if self.eventoSismicoSeleccionado:
-            self.eventoSismicoSeleccionado.bloquear()
-            print("Evento sísmico bloqueado")
+        self.pantalla.presentarEventos(eventos_auto_detectados)
+           
+    def seleccionarEventoSismico(self, evento_sismico):
+        # idx = self.pantalla.opcSeleccionarEvento(eventos_auto_detectados)
+        # self.eventoSismicoSeleccionado = eventos_auto_detectados[idx]
+        # print(self.eventoSismicoSelecci
+        self.eventoSismicoSeleccionado = evento_sismico
+        print(self.eventoSismicoSeleccionado)
+        
+        # self.eventoSismicoSeleccionado
+        self.buscarEstadoBloqueados(self.lista_estados)
+
+
+    def buscarEstadoBloqueados(self, lista_estados):
+        #aca no se bien si es de los estados en general o de los eventos auto detectados(su estado)
+        estados_bloqueados = None
+        for estado in lista_estados:
+            if estado.esAmbitoEventoSismico() and estado.esBloqueado():
+                estados_bloqueados = estado
+
+        self.buscarEmpleadoLogueado()
+        #self.bloquearEvento(self.eventoSismicoSeleccionado)
+
+    def buscarEmpleadoLogueado(self):
+        self.usuarioLogueado = self.usuarioLogueado.getUsuario()
+
+
+        self.obtenerFechaHora()
+
+    def obtenerFechaHora(self):
+        self.bloquearEvento(self.eventoSismicoSeleccionado)
+        return datetime.now()
+
+    def bloquearEvento(self, eventoSismicoSeleccionado):
+        if eventoSismicoSeleccionado:
+            eventoSismicoSeleccionado.bloquear()
+            messagebox.showinfo("Evento sísmico bloqueado")
         else:
-            print("No hay evento sísmico seleccionado para bloquear")
+            messagebox.showinfo("No hay evento sísmico seleccionado para bloquear")
+
+        self.buscarDatosSismicosRegistrados()
+    
+    def buscarDatosSismicosRegistrados(self, lista_sismografos):
+        self.eventoSismicoSeleccionado.buscarDatosSismicosRegistrados(lista_sismografos)
+        self.clasificarPorEstacion(lista_sismografos)
+
+    def clasificarPorEstacion(self, series):
+        #este hay que hacerlo
+        self.llamarCasoDeUsoGenerarSismograma()
+        pass
+
+    def llamarCasoDeUsoGenerarSismograma(self):
+        messagebox.showinfo("Llamar caso de uso Generar Sismograma")
+        self.habilitarMapaSismico()
+
+    def habilitarMapaSismico(self):
+        self.pantalla.habilitarOpcionMapaSismico()
+        self.pantalla.solicitarOpcionVisualizarMapa()
+        self.pantalla.habilitarOpcionEstacionSismologicas()
+
+    def tomarMapaSismico(self):
+        opcion = pantalla.opcMapaSismico()
+        pantalla.habilitarOpcionModificacionDatos()
+        pantalla.solicitarOpcionModifiacionDatos()
+
+    def tomarModificacionDatos(self):
+        opcion_modificacion = pantalla.opcModificacionDatos()
+        pantalla.habilitarOpciones()
+        pantalla.solicitarSeleccionarOpcion()
+
+    def tomarSeleccion(self):
+        seleccion = pantalla.ingresarSeleccion()
+
+    def validarExistencia(self, seleccion):
+        evento = seleccion
+    # Verifica que el evento y sus atributos clave existan
+        if (
+            evento is not None and
+            evento.valorMagnitud is not None and
+            evento.alcanceSismo is not None and
+            evento.origenSismo is not None and
+            hasattr(self, 'accionSeleccionada') and
+            self.accionSeleccionada is not None
+        ):
+            return True
+        else:
+            print("Faltan datos obligatorios del evento o no se seleccionó una acción.")
+            return False
+
+    def buscarEstadoRechazado(self, lista_estados):
+        estados_rechazados = []
+        for estado in lista_estados:
+            if estado.esAmbitoEventoSismico() and estado.esRechazado():
+                estados_rechazados.append(estado)
+        return estados_rechazados
+
 
     def registrarRechazo(self):
         if self.eventoSismicoSeleccionado:

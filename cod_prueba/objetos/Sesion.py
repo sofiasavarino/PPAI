@@ -4,5 +4,5 @@ class Sesion:
         self.fechaHoraHasta = fechaHoraHasta
         self.usuario = usuario
 
-    def getEmpleado(self):
-        return self.usuario.getEmpleado()
+    def getUsuario(self):
+        return self.usuario.getNombre()

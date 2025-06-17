@@ -7,7 +7,8 @@ class Estado:
     def esAmbitoEventoSismico(self):
         if self.ambito == "Evento Sismico":
             return True
-        return False
+        else:
+            return False
     
     def esAutoDetectado(self):
         if self.nombre == "Auto Detectado":
