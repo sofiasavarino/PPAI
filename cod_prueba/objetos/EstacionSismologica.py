@@ -9,4 +9,5 @@ class EstacionSismologica:
         self.nroCertificacionAdquisicion = nroCertificacionAdquisicion
 
     def getCodigoEstacion(self):
+        print("saque codigo estacion 15")
         return self.codigoEstacion

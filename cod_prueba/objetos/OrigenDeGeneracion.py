@@ -4,5 +4,6 @@ class OrigenDeGeneracion:
         self.descripcion = descripcion
 
     def getNombre(self):
+        print("saque nombre ori 6")
         return self.nombre
 

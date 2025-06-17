@@ -5,4 +5,5 @@ class ClasificacionSismo:
         self.kmProfundidadHasta = kmProfundidadHasta
 
     def getNombre(self):
+        print("saque nombre clasi 5")
         return self.nombre

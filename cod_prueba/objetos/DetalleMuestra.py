@@ -1,13 +1,15 @@
 class DetalleMuestra:
-    def __init__(self,valor, tipoDato):
+    def __init__(self,valor, lista_tipoDato):
         self.valor = valor
-        self.tipoDato = tipoDato
+        self.tipoDato = lista_tipoDato
 
     def getDatos(self):
+        print( "estoy en get datos del detalle 10")
         for dato in self.tipoDato:
             return{
-                "denominacion": tipoDato.getDenominacion(),
-                "unidad": tipoDato.getUnidad(),
-                "valor": tipoDato.getValor()
-            }
+                "denominacion": dato.getDenominacion(),
+                "unidad": dato.getUnidadDeMedida(),
+                "valor": dato.getValorUmbral()
+            } 
+
         

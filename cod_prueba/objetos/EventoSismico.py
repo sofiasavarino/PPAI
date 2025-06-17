@@ -1,8 +1,9 @@
 from CambioEstado import CambioEstado
 from datetime import datetime
-
+from tkinter import messagebox
 class EventoSismico:
-    def __init__(self, fechaHoraFin,fechaHoraOcurrencia,latitudEpicentro,latitudHipocentro,longitudEpicentro,longitudHipocentro,valorMagnitud, cambioEstado, estado, serieTemporal, origenSismo, clasificacionSismo, alcanceSismo, empleado):
+    def __init__(self,lista_Series_temporales,fechaHoraFin,fechaHoraOcurrencia,latitudEpicentro,latitudHipocentro,longitudEpicentro,longitudHipocentro,valorMagnitud, cambioEstado, estado, serieTemporal, origenSismo, clasificacionSismo, alcanceSismo, empleado):
+        self.lista_Series_temporales = lista_Series_temporales
         self.fechaHoraFin = fechaHoraFin
         self.fechaHoraOcurrencia = fechaHoraOcurrencia 
         self.longitudEpicentro = longitudEpicentro
@@ -50,42 +51,62 @@ class EventoSismico:
     }
 
     def getDatos(self):
+        print("estoy en get datos de eventos 3")
         nombreSismo = self.alcanceSismo.getNombre()
         clasificacionSismo = self.clasificacionSismo.getNombre()
         origenSismo = self.origenSismo.getNombre()
+        self.buscarDatosSeriesTemporales()
         return nombreSismo, clasificacionSismo, origenSismo
 
     # def bloquear(self):
     #     self.buscarCambioEstadoEvento()}
-    def bloquear(self, estado_bloqueado):
+    def bloquear(self, estado_bloqueado,fechaHora):
     # Crear un nuevo cambio de estado y asociarlo
-        nuevo_cambio = self.crearCambioEstado(estado_bloqueado)
-        self.cambioEstado.append(nuevo_cambio)
-        self.estado = estado_bloqueado
+        
 
-    def buscarCambioEstadoEvento(self):
+        # self.cambioEstado.append(nuevo_cambio)
+        # self.estado = estado_bloqueado
+        # nuevo_cambio = self.buscarCambioEstadoEvento(estado_bloqueado,fechaHora)
+        self.estado = estado_bloqueado
+        self.cambioEstado = self.buscarCambioEstadoEvento(fechaHora)
+        messagebox.showinfo("Se llama a crear", f"Se llamo a buscarCambio")
+
+    def buscarCambioEstadoEvento(self, fechaHora):
         for cambio in self.cambioEstado:
             if cambio.esUltimo(cambio):
                 cambio.setFechaHoraFin()
-        self.crearCambioEstado(self.estado)
+        
+        self.crearCambioEstado(self.estado,self.cambioEstado, fechaHora)
+        messagebox.showinfo("Se llama a crear" ,f"Se llamo a crearCambio")
 
-    def crearCambioEstado(self, estado):
+    def crearCambioEstado(self, estado, cambioEstado, fechaHora):
         nuevo_cambio = CambioEstado(
-            fechaHoraInicio=datetime.now(),
+            fechaHoraInicio=fechaHora,
             fechaHoraFin=None,
-            estado= self.estado
+            estado= estado,
+            lista_estado= cambioEstado 
         )
         self.cambioEstado.append(nuevo_cambio)
-        return nuevo_cambio
+        print("Cambio hecho")
+        messagebox.showinfo("Se llama a crear" ,f"Secreo")
+        
+        
 
-    def buscarDatosSismicosRegistrados(self, lista_sismografos):
-        for sismografo in lista_sismografos:
-            sismografo.getDatos(self)
+    def buscarDatosSismicosRegistrados(self):
+        print("estoy en buscar datos sismicos registrados de evento 2")
+        self.getDatos()
+       
+        # for sismografoo in lista_sismografos:
+        #     self.getDatos(sismografoo)
+        #     print(f"Datos del sismógrafo {self.getDatos(sismografoo)}:")
+        #self.buscarDatosSeriesTemporales(self.lista_Series_temporales)
 
-    def buscarDatosSeriesTemporales(self, lista_series_temporales):
+
+    def buscarDatosSeriesTemporales(self):
+        print("estoy en buscar series temporales 7")
         series = []
-        for serie in lista_series_temporales:
-            series.append(serie.getSerieTemporal(self))
+        for serie in self.lista_Series_temporales:
+            series.append(serie.getSerieTemporal())
         return series
 
     

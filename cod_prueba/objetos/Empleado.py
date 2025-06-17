@@ -6,7 +6,10 @@ class Empleado:
         self.telefono = telefono
         self.usuario = usuario
 
-    def esTuUsuario(self, usuario):
-        if self.usuario == usuario:
-            return True
-        return False
+    def esTuUsuario(self, nombre_usuario):
+        # if self.usuario == usuario:
+        #     return True
+        # else:
+        #     return False
+        
+        return self.usuario.getNombre() == nombre_usuario

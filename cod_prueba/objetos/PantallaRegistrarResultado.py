@@ -54,9 +54,18 @@ class PantallaRegistrarResultado:
             messagebox.showinfo("Sin eventos", "No hay eventos sísmicos para revisar.")
 
     def opcSeleccionarEvento(self, eventos, idx):
+        print(f"Llamado a opcSeleccionarEvento con idx={idx}")
+        evento_dict = eventos[idx]
+        print(f"evento_dict: {evento_dict}")
+        evento_obj = evento_dict.get("objeto") # Obtené el objeto real
         #self.gestor.eventoSismicoSeleccionado = eventos[idx]
+        # messagebox.showinfo("Evento seleccionado", f"Seleccionaste el evento {idx+1}")
+        # self.gestor.seleccionarEventoSismico(evento_obj)
+        if evento_obj is None:
+            messagebox.showerror("Error", "No se encontró el objeto EventoSismico en el diccionario.")
+            return
         messagebox.showinfo("Evento seleccionado", f"Seleccionaste el evento {idx+1}")
-        self.gestor.seleccionarEventoSismico(eventos[idx])
+        self.gestor.seleccionarEventoSismico(evento_obj)
         
     
     def habilitarOpcionMapaSismico(self):
@@ -74,17 +83,17 @@ class PantallaRegistrarResultado:
     def habilitarOpciones(self):
         print("Opciones habilitadas: Confirmar / Rechazar / Solicitar revisión a experto")
 
-    def solicitarSeleccionarOpcion(self):
-        opciones = ["Confirmar evento", "Rechazar evento", "Solicitar revisión a experto"]
-        seleccion = simpledialog.askinteger("Acción", f"Seleccione una acción:\n" + "\n".join(f"{i}: {opciones[i]}" for i in range(len(opciones))))
-        if seleccion == 1:
-            self.gestor.registrarRechazo()
-        elif seleccion == 0:
-            print("Evento confirmado (simulado)")
-        elif seleccion == 2:
-            print("Evento derivado a experto (simulado)")
-        self.gestor.finCU()
+    # def solicitarSeleccionarOpcion(self):
+    #     opciones = ["Confirmar evento", "Rechazar evento", "Solicitar revisión a experto"]
+    #     seleccion = simpledialog.askinteger("Acción", f"Seleccione una acción:\n" + "\n".join(f"{i}: {opciones[i]}" for i in range(len(opciones))))
+    #     if seleccion == 1:
+    #         self.gestor.registrarRechazo()
+    #     elif seleccion == 0:
+    #         print("Evento confirmado (simulado)")
+    #     elif seleccion == 2:
+    #         print("Evento derivado a experto (simulado)")
+    #     self.gestor.finCU()
 
-    def ingresarSeleccion(self):
-        return simpledialog.askstring("Ingreso", "Ingrese selección (texto libre)")
+    # def ingresarSeleccion(self):
+    #     return simpledialog.askstring("Ingreso", "Ingrese selección (texto libre)")
 
