@@ -65,7 +65,7 @@ class PantallaRegistrarResultado:
             messagebox.showerror("Error", "No se encontró el objeto EventoSismico en el diccionario.")
             return
         messagebox.showinfo("Evento seleccionado", f"Seleccionaste el evento {idx+1}")
-        self.gestor.seleccionarEventoSismico(evento_obj)
+        self.gestor.seleccionarEvento(evento_obj)
         
     
     def habilitarOpcionMapaSismico(self):

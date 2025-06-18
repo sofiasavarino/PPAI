@@ -1,0 +1,6 @@
+
+# ignorar carpetas
+__pycache__
+
+# Ignorar formatos
+.pyc

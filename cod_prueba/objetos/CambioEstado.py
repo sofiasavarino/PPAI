@@ -10,7 +10,8 @@ class CambioEstado:
             if estado.fechaHoraFin is None or estado.fechaHoraFin > self.fechaHoraFin:
                 return True
     
-    def setFechaHoraFin(self):
-        from datetime import datetime
-        self.fechaHoraFin = datetime.now()
+    def setFechaHoraFin(self, fecha):
+        # Borro esto, solo el gestor tiene acceso al time
+        # from datetime import datetime
+        self.fechaHoraFin = fecha
         
