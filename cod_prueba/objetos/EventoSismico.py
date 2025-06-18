@@ -74,7 +74,7 @@ class EventoSismico:
     def buscarCambioEstadoEvento(self, fechaHora):
         for cambio in self.cambioEstado:
             if cambio.esUltimo(cambio):
-                cambio.setFechaHoraFin()
+                cambio.setFechaHoraFin(fechaHora)
         
         self.crearCambioEstado(self.estado,self.cambioEstado, fechaHora)
         messagebox.showinfo("Se llama a crear" ,f"Se llamo a crearCambio")

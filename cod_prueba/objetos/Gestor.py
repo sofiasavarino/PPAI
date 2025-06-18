@@ -160,11 +160,17 @@ class Gestor:
         eventos_auto_detectados.sort(key=lambda x: x["fechaHoraOcurrencia"])
         self.pantalla.presentarEventos(eventos_auto_detectados)
            
-    def seleccionarEventoSismico(self, evento_sismico):
+    def seleccionarEvento(self, evento_sismico):
         self.eventoSismicoSeleccionado = evento_sismico
         print(self.eventoSismicoSeleccionado)
 
         self.buscarEstadoBloqueados(self.lista_estados)
+        # llamados al resto de funciones
+        self.buscarEmpleadoLogueado()
+        fechaHora = self.obtenerFechaHora()
+        self.bloquearEvento(self.eventoSismicoSeleccionado, fechaHora)
+        self.buscarDatosSismicosRegistrados()
+
 
 
     def buscarEstadoBloqueados(self, lista_estados):
@@ -175,8 +181,8 @@ class Gestor:
         if self.eventoBloqueadoEnRevision:
             messagebox.showinfo("Evento bloqueado", "Hay un evento bloqueado en revisión")
 
-        self.buscarEmpleadoLogueado()
-        #self.bloquearEvento(self.eventoSismicoSeleccionado)
+        # self.buscarEmpleadoLogueado()
+        # #self.bloquearEvento(self.eventoSismicoSeleccionado)
 
     def buscarEmpleadoLogueado(self):
         self.usuarioLogueado = self.sesion.getNombreUsuario()
@@ -190,12 +196,13 @@ class Gestor:
         else:
             messagebox.showinfo("Empleado no encontrado", "No se encontró el empleado logueado")
 
-        self.obtenerFechaHora()
+        # self.obtenerFechaHora()
 
     def obtenerFechaHora(self):
         fechaHora=  datetime.now()
+        return fechaHora
         #ESTO NO ESTARIA BIEN
-        self.bloquearEvento(self.eventoSismicoSeleccionado, fechaHora)
+        # self.bloquearEvento(self.eventoSismicoSeleccionado, fechaHora)
 
     def bloquearEvento(self, eventoSismicoSeleccionado, fechaHora):
         if eventoSismicoSeleccionado:
@@ -205,11 +212,11 @@ class Gestor:
         else:
             messagebox.showinfo("No hay evento sísmico seleccionado para bloquear")
 
-        self.buscarDatosSismicosRegistrados()
+        # self.buscarDatosSismicosRegistrados()
     
     def buscarDatosSismicosRegistrados(self):
         self.eventoSismicoSeleccionado.buscarDatosSismicosRegistrados()
-        print("VA a fncion  buscar datos sismicos")
+        print("VA a funcion  buscar datos sismicos")
         #self.clasificarPorEstacion(lista_sismografos)
 
     def clasificarPorEstacion(self, series):
