@@ -15,6 +15,7 @@ from TipoDato import TipoDato
 from AlcanceSismo import AlcanceSismo
 from OrigenDeGeneracion import OrigenDeGeneracion
 from ClasificacionSismo import ClasificacionSismo
+from CambioEstado import CambioEstado
 
 def main():
     # Crear estados de ejemplo
@@ -191,7 +192,6 @@ def main():
         kmProfundidadHasta = 103
     )
     
-
     # Crear eventos sísmicos de ejemplo
     evento1 = EventoSismico(
         fechaHoraFin=None,
@@ -201,7 +201,13 @@ def main():
         longitudEpicentro=-58.4,
         longitudHipocentro=-58.5,
         valorMagnitud=5.2,
-        cambioEstado=[],
+        cambioEstado=[
+            CambioEstado(
+                fechaHoraInicio="2024-06-01 15:00",
+                fechaHoraFin=None,
+                estado=estado_auto,
+            )
+        ],
         estado=estado_auto,
         serieTemporal=serieTemporal1,
         origenSismo= origenSismo3,
@@ -218,7 +224,13 @@ def main():
         longitudEpicentro=-59.0,
         longitudHipocentro=-59.1,
         valorMagnitud=4.8,
-        cambioEstado=[],
+        cambioEstado=[
+            CambioEstado(
+                fechaHoraInicio="2024-06-02 14:30",
+                fechaHoraFin=None,
+                estado=estado_auto,
+            )
+        ],
         estado=estado_manual,
         serieTemporal=None,
         origenSismo= origenSismo2,
@@ -235,7 +247,13 @@ def main():
         longitudEpicentro=-58.4,
         longitudHipocentro=-58.5,
         valorMagnitud=5.2,
-        cambioEstado=[],
+        cambioEstado=[
+            CambioEstado(
+                fechaHoraInicio="2024-06-01 13:50",
+                fechaHoraFin=None,
+                estado=estado_auto,
+            )
+        ],
         estado=estado_auto,
         serieTemporal=serieTemporal2,
         origenSismo= origenSismo1,
