@@ -237,17 +237,18 @@ class Gestor:
 
     def tomarSeleccion(self, seleccion):
         messagebox.showinfo("Donde Estoy??", f"tomarSeleccion()\nSeleccion: {seleccion}")
+        self.accionSeleccionada = seleccion
         self.validarExistencia(seleccion=seleccion)
 
 
     def validarExistencia(self, seleccion):
-        evento = seleccion
+        
     # Verifica que el evento y sus atributos clave existan
         if (
-            evento is not None and
-            evento.valorMagnitud is not None and
-            evento.alcanceSismo is not None and
-            evento.origenSismo is not None and
+            self.eventoSismicoSeleccionado is not None and
+            self.eventoSismicoSeleccionado.valorMagnitud is not None and
+            self.eventoSismicoSeleccionado.alcanceSismo is not None and
+            self.eventoSismicoSeleccionado.origenSismo is not None and
             hasattr(self, 'accionSeleccionada') and
             self.accionSeleccionada is not None
         ):
