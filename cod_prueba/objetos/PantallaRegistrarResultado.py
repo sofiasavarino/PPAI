@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import Toplevel
+
 
 class PantallaRegistrarResultado:
     def __init__(self, gestor):
@@ -21,9 +23,6 @@ class PantallaRegistrarResultado:
 
     def habilitar(self):
         # Llama al gestor para obtener la lista ordenada y la muestra
-        # eventos = self.gestor.buscarEventosAutoDetectados()
-        # eventos_ordenados = self.gestor.ordenarPorFechayHora(eventos)
-        # self.presentarEventos(eventos_ordenados)
         self.gestor.opcRegistrarResultado()
 
 
@@ -57,10 +56,7 @@ class PantallaRegistrarResultado:
         print(f"Llamado a opcSeleccionarEvento con idx={idx}")
         evento_dict = eventos[idx]
         print(f"evento_dict: {evento_dict}")
-        evento_obj = evento_dict.get("objeto") # Obtené el objeto real
-        #self.gestor.eventoSismicoSeleccionado = eventos[idx]
-        # messagebox.showinfo("Evento seleccionado", f"Seleccionaste el evento {idx+1}")
-        # self.gestor.seleccionarEventoSismico(evento_obj)
+        evento_obj = evento_dict.get("objeto") # Obtiene el objeto real
         if evento_obj is None:
             messagebox.showerror("Error", "No se encontró el objeto EventoSismico en el diccionario.")
             return
@@ -69,22 +65,38 @@ class PantallaRegistrarResultado:
         
     
     def habilitarOpcionMapaSismico(self):
-        messagebox.showinfo("Se habilita opción para mapa sísmico")
+        print("Se habilita opción para mapa sísmico") 
+
+    def habilitarOpcionEstacionSismologica(self):
+        print("Se habilita opción para visualizar estación sismológica")
 
     def solicitarOpcionVisualizarMapa(self):
-        messagebox.showinfo("Mapa sísmico mostrado (simulado)")
+        # messagebox.showinfo("Mapa sísmico mostrado (simulado)")
+        messagebox.askyesno("Visualizar mapa", "¿Desea visualizar el mapa sísmico?")
+        self.opcMapaSismico()
+
+    def opcMapaSismico(self):
+        self.gestor.tomarMapaSismico()
+
+
 
     def habilitarOpcionModificacionDatos(self):
-        messagebox.showinfo("Se habilita opción para modificar magnitud, alcance u origen")
+        print("Se habilita opción para modificar magnitud, alcance u origen")
 
     def solicitarOpcionModifiacionDatos(self):
-        print("Simular modificación de datos del evento (opcional)")
+        messagebox.askyesno("Datos evento", "¿Desea Modificar los datos?")
+        self.opcModificarDatos()
+
+    def opcModificarDatos(self):
+        self.gestor.tomarModificacionDatos()
+
 
     def habilitarOpciones(self):
         print("Opciones habilitadas: Confirmar / Rechazar / Solicitar revisión a experto")
 
+       
     # def solicitarSeleccionarOpcion(self):
-    #     opciones = ["Confirmar evento", "Rechazar evento", "Solicitar revisión a experto"]
+    #     opciones = ["aceptar", "rechazar", "derivar"]
     #     seleccion = simpledialog.askinteger("Acción", f"Seleccione una acción:\n" + "\n".join(f"{i}: {opciones[i]}" for i in range(len(opciones))))
     #     if seleccion == 1:
     #         self.gestor.registrarRechazo()
@@ -97,3 +109,29 @@ class PantallaRegistrarResultado:
     # def ingresarSeleccion(self):
     #     return simpledialog.askstring("Ingreso", "Ingrese selección (texto libre)")
 
+    def solicitarSeleccionarOpcion(self):
+        ventana = Toplevel()
+        ventana.title("Seleccione una acción")
+        ventana.geometry("300x200")
+        ventana.resizable(True, True)
+
+        label = tk.Label(ventana, text="¿Qué desea hacer con el evento?")
+        label.pack(pady=10)
+
+        # Botón Aceptar
+        btn_aceptar = tk.Button(ventana, text="Aceptar", width=20, command=lambda: self.opcion_seleccionada("aceptar", ventana))
+        btn_aceptar.pack(pady=5)
+
+        # Botón Rechazar
+        btn_rechazar = tk.Button(ventana, text="Rechazar", width=20, command=lambda: self.opcion_seleccionada("rechazar", ventana))
+        btn_rechazar.pack(pady=5)
+
+        # Botón Derivar
+        btn_derivar = tk.Button(ventana, text="Derivar", width=20, command=lambda: self.opcion_seleccionada("derivar", ventana))
+        btn_derivar.pack(pady=5)
+
+    def opcion_seleccionada(self, opcion, ventana):
+        ventana.destroy()  # Cierra la ventana 
+        self.gestor.tomarSeleccion(opcion)
+        
+        # self.gestor.finCU()
