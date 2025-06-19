@@ -1,6 +1,4 @@
 from CambioEstado import CambioEstado
-from datetime import datetime
-from tkinter import messagebox
 class EventoSismico:
     def __init__(self,lista_Series_temporales,fechaHoraFin,fechaHoraOcurrencia,latitudEpicentro,latitudHipocentro,longitudEpicentro,longitudHipocentro,valorMagnitud, cambioEstado, estado, serieTemporal, origenSismo, clasificacionSismo, alcanceSismo, empleado):
         self.lista_Series_temporales = lista_Series_temporales
@@ -55,8 +53,8 @@ class EventoSismico:
         nombreSismo = self.alcanceSismo.getNombre()
         clasificacionSismo = self.clasificacionSismo.getNombre()
         origenSismo = self.origenSismo.getNombre()
-        self.buscarDatosSeriesTemporales()
-        return nombreSismo, clasificacionSismo, origenSismo
+        series = self.buscarDatosSeriesTemporales()
+        return nombreSismo, clasificacionSismo, origenSismo, series
 
     # def bloquear(self):
     #     self.buscarCambioEstadoEvento()}
@@ -69,7 +67,6 @@ class EventoSismico:
         # nuevo_cambio = self.buscarCambioEstadoEvento(estado_bloqueado,fechaHora)
         self.estado = estado_bloqueado
         self.cambioEstado = self.buscarCambioEstadoEvento(fechaHora)
-        messagebox.showinfo("Se llama a crear", f"Se llamo a buscarCambio")
 
     def buscarCambioEstadoEvento(self, fechaHora):
         for cambio in self.cambioEstado:
@@ -77,7 +74,6 @@ class EventoSismico:
                 cambio.setFechaHoraFin(fechaHora)
         
         self.crearCambioEstado(self.estado,self.cambioEstado, fechaHora)
-        messagebox.showinfo("Se llama a crear" ,f"Se llamo a crearCambio")
 
     def crearCambioEstado(self, estado, cambioEstado, fechaHora):
         nuevo_cambio = CambioEstado(
@@ -88,13 +84,12 @@ class EventoSismico:
         )
         self.cambioEstado.append(nuevo_cambio)
         print("Cambio hecho")
-        messagebox.showinfo("Se llama a crear" ,f"Secreo")
         
         
 
     def buscarDatosSismicosRegistrados(self):
         print("estoy en buscar datos sismicos registrados de evento 2")
-        self.getDatos()
+        return self.getDatos()
        
         # for sismografoo in lista_sismografos:
         #     self.getDatos(sismografoo)
@@ -111,4 +106,4 @@ class EventoSismico:
 
     
     def rechazar(self):
-        self.eventoSismicoSeleccionado.buscarCambioEstadoEvento()
+        self.buscarCambioEstadoEvento()
