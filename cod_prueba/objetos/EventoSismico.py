@@ -70,17 +70,16 @@ class EventoSismico:
 
     def buscarCambioEstadoEvento(self, fechaHora):
         for cambio in self.cambioEstado:
-            if cambio.esUltimo(cambio):
+            if cambio.esUltimo():
                 cambio.setFechaHoraFin(fechaHora)
         
-        self.crearCambioEstado(self.estado,self.cambioEstado, fechaHora)
+        self.crearCambioEstado(self.estado, fechaHora)
 
-    def crearCambioEstado(self, estado, cambioEstado, fechaHora):
+    def crearCambioEstado(self, estado, fechaHora):
         nuevo_cambio = CambioEstado(
             fechaHoraInicio=fechaHora,
             fechaHoraFin=None,
             estado= estado,
-            lista_estado= cambioEstado 
         )
         self.cambioEstado.append(nuevo_cambio)
         print("Cambio hecho")
@@ -105,5 +104,7 @@ class EventoSismico:
         return series
 
     
-    def rechazar(self):
-        self.buscarCambioEstadoEvento()
+    def rechazar(self, estado_rechazado, fechaHora):
+    # Crear un nuevo cambio de estado y asociarlo
+        self.estado = estado_rechazado
+        self.cambioEstado = self.buscarCambioEstadoEvento(fechaHora)
