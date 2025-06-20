@@ -3,6 +3,8 @@ class Sismografo:
         self.fechaAdquisicion = fechaAdquisicion
         self.identificadorSismografo = identificadorSismografo
         self.nroSerie = nroSerie
+
+        #Relacion con otras clases
         self.estacionSismologica = estacionSismologica
 
     def getEstacionSismologica(self):

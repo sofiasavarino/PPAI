@@ -1,6 +1,9 @@
 class DetalleMuestra:
     def __init__(self,valor, lista_tipoDato):
+        #Atributo Propio:
         self.valor = valor
+
+        #Relacion con otras clases:
         self.tipoDato = lista_tipoDato
 
     def getDatos(self):

@@ -4,12 +4,9 @@ class Empleado:
         self.nombre = nombre
         self.mail = mail
         self.telefono = telefono
+
+        #Relacion con otra clase
         self.usuario = usuario
 
     def esTuUsuario(self, nombre_usuario):
-        # if self.usuario == usuario:
-        #     return True
-        # else:
-        #     return False
-        
         return self.usuario.getNombre() == nombre_usuario

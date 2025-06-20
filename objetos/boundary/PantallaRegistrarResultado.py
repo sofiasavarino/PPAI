@@ -5,11 +5,23 @@ from tkinter import Toplevel
 
 class PantallaRegistrarResultado:
     def __init__(self, gestor):
+        #Relacion otras clases:
         self.gestor = gestor
+
         self.root = tk.Tk()
         self.root.title("Registrar Resultado de Revisión Manual")
         self.root.focus_force()
+
+        #Atributos propios:
         self.btn_iniciar = None
+        self.btnSeleccionarEvento = None
+        self.listaEventosSismicos = None
+        self.btnMapaSismico = None
+        self.btnModificacionDatos = None
+        self.listaSeriesTemporales = None
+        self.grillOpciones = None
+        self.btnIngresarOpcion = None
+        self.evento_dict = None
  
 
     def opcRegistrarResultado(self):
@@ -54,9 +66,9 @@ class PantallaRegistrarResultado:
 
     def opcSeleccionarEvento(self, eventos, idx):
         print(f"Llamado a opcSeleccionarEvento con idx={idx}")
-        evento_dict = eventos[idx]
-        print(f"evento_dict: {evento_dict}")
-        evento_obj = evento_dict.get("objeto") # Obtiene el objeto real
+        self.evento_dict = eventos[idx]
+        print(f"evento_dict: {self.evento_dict}")
+        evento_obj = self.evento_dict.get("objeto") # Obtiene el objeto real
         if evento_obj is None:
             messagebox.showerror("Error", "No se encontró el objeto EventoSismico en el diccionario.")
             return
@@ -108,12 +120,25 @@ class PantallaRegistrarResultado:
 
     # def ingresarSeleccion(self):
     #     return simpledialog.askstring("Ingreso", "Ingrese selección (texto libre)")
-
     def solicitarSeleccionarOpcion(self):
         ventana = Toplevel()
-        ventana.title("Seleccione una acción")
+        ventana.title("Revision de Evento Sismico")
         ventana.geometry("300x200")
         ventana.resizable(True, True)
+
+        label = tk.Label(ventana, text="Datos de evento seleccionado")
+        label.pack(pady=10)
+        datos_evento = (
+            f"  Fecha/Hora: {self.evento_dict['fechaHoraOcurrencia']}\n"
+            f"  Lat Epicentro: {self.evento_dict['latitudEpicentro']}\n"
+            f"  Long Epicentro: {self.evento_dict['longitudEpicentro']}\n"
+            f"  Lat Hipocentro: {self.evento_dict['latitudHipocentro']}\n"
+            f"  Long Hipocentro: {self.evento_dict['longitudHipocentro']}\n"
+            f"  Magnitud: {self.evento_dict['valorMagnitud']}\n"
+        )
+        frame = tk.Frame(ventana, relief=tk.RIDGE, borderwidth=2)  # Usar 'ventana' en vez de 'self.root'
+        frame.pack(fill=tk.X, padx=10, pady=5)
+        tk.Label(frame, text=datos_evento, justify=tk.LEFT, anchor="w").pack(side=tk.LEFT, padx=5)
 
         label = tk.Label(ventana, text="¿Qué desea hacer con el evento?")
         label.pack(pady=10)

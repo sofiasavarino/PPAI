@@ -1,21 +1,21 @@
 from datetime import datetime
-from Gestor import Gestor
-from PantallaRegistrarResultado import PantallaRegistrarResultado
-from Estado import Estado
-from EventoSismico import EventoSismico
-from Sesion import Sesion
-from Usuario import Usuario
-from Empleado import Empleado
-from Sismografo import Sismografo
-from EstacionSismologica import EstacionSismologica
-from SerieTemporal import SerieTemporal
-from MuestraSismica import MuestraSismica
-from DetalleMuestra import DetalleMuestra
-from TipoDato import TipoDato
-from AlcanceSismo import AlcanceSismo
-from OrigenDeGeneracion import OrigenDeGeneracion
-from ClasificacionSismo import ClasificacionSismo
-from CambioEstado import CambioEstado
+from control.GestorRegistrarResultado import GestorRegistrarResultado
+from boundary.PantallaRegistrarResultado import PantallaRegistrarResultado
+from entidad.Estado import Estado
+from entidad.EventoSismico import EventoSismico
+from entidad.Sesion import Sesion
+from entidad.Usuario import Usuario
+from entidad.Empleado import Empleado
+from entidad.Sismografo import Sismografo
+from entidad.EstacionSismologica import EstacionSismologica
+from entidad.SerieTemporal import SerieTemporal
+from entidad.MuestraSismica import MuestraSismica
+from entidad.DetalleMuestra import DetalleMuestra
+from entidad.TipoDato import TipoDato
+from entidad.AlcanceSismo import AlcanceSismo
+from entidad.OrigenDeGeneracion import OrigenDeGeneracion
+from entidad.ClasificacionSismo import ClasificacionSismo
+from entidad.CambioEstado import CambioEstado
 
 def main():
     # Crear estados de ejemplo
@@ -213,7 +213,7 @@ def main():
         origenSismo= origenSismo3,
         clasificacionSismo= clasificacionSismo3,
         alcanceSismo=alcanceSismo3,
-        empleado=empleado1,
+        empleado=None,
         lista_Series_temporales=lista_series_temporales
     )
     evento2 = EventoSismico(
@@ -259,7 +259,7 @@ def main():
         origenSismo= origenSismo1,
         clasificacionSismo= clasificacionSismo1,
         alcanceSismo=alcanceSismo1,
-        empleado=empleado2,
+        empleado=None,
         lista_Series_temporales=lista_series_temporales
     )
 
@@ -269,7 +269,7 @@ def main():
 
     
 
-    gestor = Gestor(sesion= sesion1,lista_sismografos=lista_sismografos, lista_empleados=lista_empleados, lista_eventos=lista_eventos, lista_estados= lista_estados, estado = Estado, pantalla=None)
+    gestor = GestorRegistrarResultado(sesion= sesion1,lista_sismografos=lista_sismografos, lista_empleados=lista_empleados, lista_eventos=lista_eventos, lista_estados= lista_estados,  pantalla=None)
     pantalla = PantallaRegistrarResultado(gestor)
     gestor.pantalla = pantalla
     pantalla.opcRegistrarResultado()
