@@ -63,31 +63,16 @@ class EventoSismico:
         series = self.buscarDatosSeriesTemporales()
         return nombreSismo, clasificacion, origenSismo, series
 
-    # def bloquear(self):
-    #     self.buscarCambioEstadoEvento()}
-    # def bloquear(self, estado_bloqueado,fechaHora):
-    # # Crear un nuevo cambio de estado y asociarlo
-        
 
-    #     # self.cambioEstado.append(nuevo_cambio)
-    #     # self.estado = estado_bloqueado
-    #     # nuevo_cambio = self.buscarCambioEstadoEvento(estado_bloqueado,fechaHora)
-    #     self.estadoActual = estado_bloqueado
-    #     self.cambioEstado = self.buscarCambioEstadoEvento(fechaHora)
-
-    # def buscarCambioEstadoEvento(self, fechaHora):
-    #     for cambio in self.cambioEstado:
-    #         if cambio.esUltimo():
-    #             cambio.setFechaHoraFin(fechaHora)
-        
-    #     self.crearCambioEstado(self.estadoActual, fechaHora)
     def bloquear(self, estado_bloqueado, fechaHora):
         self.estadoActual = estado_bloqueado
         self.buscarCambioEstadoEvento(fechaHora)
+        return self
 
     def rechazar(self, estado_rechazado, fechaHora):
         self.estadoActual = estado_rechazado
         self.buscarCambioEstadoEvento(fechaHora)
+        return self
 
     def buscarCambioEstadoEvento(self, fechaHora):
         for cambio in self.cambioEstado:
@@ -124,8 +109,3 @@ class EventoSismico:
             series.append(serie.getSerieTemporal())
         return series
 
-    
-    def rechazar(self, estado_rechazado, fechaHora):
-    # Crear un nuevo cambio de estado y asociarlo
-        self.estadoActual = estado_rechazado
-        self.cambioEstado = self.buscarCambioEstadoEvento(fechaHora)

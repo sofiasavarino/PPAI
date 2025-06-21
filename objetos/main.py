@@ -23,8 +23,14 @@ def main():
     estado_manual = Estado(nombre="Manual", ambito="Evento Sismico", descripcion="Cargado manualmente")
     estado_bloqueado = Estado(nombre="Bloqueado", ambito="Evento Sismico", descripcion="Bloqueado por el sistema")
     estado_rechazado = Estado(nombre="Rechazado", ambito="Evento Sismico", descripcion="Rechazado por el usuario")
+    estado_derivado= Estado(nombre="Derivado", ambito="Evento Sismico", descripcion="Derivado a analista supervisor")
+    estado_aceptado = Estado(nombre="Aceptado", ambito="Evento Sismico", descripcion="")
+    estado_pendienteCierre = Estado(nombre="Pendiente de cierre", ambito="Evento Sismico", descripcion="")
+    estado_cerrado = Estado(nombre="Cerrado", ambito="Evento Sismico", descripcion="")
+    estado_pendienteRevision = Estado(nombre="Sin revision", ambito="Evento Sismico", descripcion="autodetectados pedientes de revision")
 
-    lista_estados = [estado_auto, estado_manual, estado_bloqueado, estado_rechazado]
+
+    lista_estados = [estado_auto, estado_manual, estado_bloqueado, estado_rechazado, estado_aceptado,estado_derivado,estado_pendienteCierre,estado_cerrado, estado_pendienteRevision]
 
     estacionSismologica1 = EstacionSismologica( 
         codigoEstacion = "EST1",
@@ -62,53 +68,64 @@ def main():
 
     lista_sismografos = [sismografo1, sismografo2]
     usuario1 = Usuario(
-        nombre_usuario="Usuario Test",
+        nombre_usuario="pepito123",
         contrasena="contrasena123",
     )
 
     usuario2 = Usuario(
-        nombre_usuario="Usuario Test 2",
+        nombre_usuario="juanito321",
         contrasena="contrasena1234",
+    )
+
+    usuario3 = Usuario(
+        nombre_usuario= "messi10",
+        contrasena="goat"
     )
 
     sesion1 = Sesion(
         fechaHoraDesde=datetime(2024, 6, 1, 12, 0),
-        fechaHoraHasta=datetime(2024, 6, 2, 16, 0),
+        fechaHoraHasta=datetime(2024, 12, 2, 16, 0),
         usuario=usuario1,
     )
 
 
     empleado1 = Empleado(
-        nombre="Empleado Test",
-        apellido="Apellido Test",
-        mail="sjasaijsia",
+        nombre="Juan",
+        apellido="Perez",
+        mail="juanitoPerez@gmail.com",
         telefono="123456789",
-        usuario=usuario1,
+        usuario=usuario2,
     )
 
     empleado2 = Empleado(
-        nombre="Empleado Test 2",
-        apellido="Apellido Test 2",
-        mail="sjasaijsia2",
+        nombre="Pepe",
+        apellido="Lopez",
+        mail="lopezPepito@gmail.com",
         telefono="987654321",
-        usuario=usuario2,
+        usuario=usuario1,
+    )
+
+    empleado3 = Empleado(
+        nombre= "Lionel Andrés",
+        apellido="Messi",
+        mail= "messi10@gmail.com",
+        telefono= "18122022",
+        usuario=usuario3
     )
     
-    lista_empleados = [empleado1, empleado2]
+    lista_empleados = [empleado1, empleado2,empleado3]
 
-    tipoDato1 = TipoDato(denominacion="Tipo Test", unidadDeMedida="m/s", valorUmbral=10.0)
-    tipoDato2 = TipoDato(denominacion="Tipo Test 2", unidadDeMedida="m/s", valorUmbral=15.0)
-
-    lista_tipoDato = [tipoDato1,tipoDato2]
+    tipoDato1 = TipoDato(denominacion="Test", unidadDeMedida="m/s", valorUmbral=10.0)
+    tipoDato2 = TipoDato(denominacion="Grande", unidadDeMedida="m/s", valorUmbral=15.0)
 
     detalleMuestra1 = DetalleMuestra(
         valor = 5,
-        lista_tipoDato = lista_tipoDato
+        tipoDato = tipoDato1
     )
 
     detalle_muestra2 = DetalleMuestra(
-        valor=5.2,  # Valor de la muestra
-        lista_tipoDato=lista_tipoDato)
+        valor=5.2,  
+        tipoDato=tipoDato2)
 
     lista_detalleMuestra = [detalleMuestra1,detalle_muestra2]
 
@@ -119,7 +136,7 @@ def main():
 
     muestraSismica2 = MuestraSismica(
             fechaHoraMuestra = datetime(2023, 6, 7, 11, 0),
-            lista_detalleMuestra = lista_detalleMuestra
+            lista_detalleMuestra= lista_detalleMuestra
         )
     
     lista_muestras_sismicas = [muestraSismica1,muestraSismica2]
@@ -129,67 +146,67 @@ def main():
         fechaHoraInicioRegistroMuestras = datetime(2024, 6, 1, 12, 0),
         fechaHoraRegistro = datetime(2024, 6, 1, 12, 0),
         frecuenciaMuestreo=100,
-        muestraSismica= None, 
+        lista_muestras_sismicas= lista_muestras_sismicas, 
         sismografo = sismografo2,
-        lista_muestras_sismicas= lista_muestras_sismicas)
+    )
     
     serieTemporal2 = SerieTemporal(
         condicionAlarma = "Condición de Alarma 2",
         fechaHoraInicioRegistroMuestras = datetime(2024, 6, 1, 12, 0),         
         fechaHoraRegistro = datetime(2024, 6, 1, 12, 0),
         frecuenciaMuestreo=200,
-        muestraSismica= None,
+        lista_muestras_sismicas= lista_muestras_sismicas,
         sismografo = sismografo1,
-        lista_muestras_sismicas= lista_muestras_sismicas)
+        )
     
     lista_series_temporales = [serieTemporal1, serieTemporal2]
 
     alcanceSismo1 = AlcanceSismo(
-        nombre= "al",
-        descripcion= "descc"
+        nombre= "Sismo local", 
+        descripcion= "Hasta 100 km"
     )
 
     alcanceSismo2 = AlcanceSismo(
-        nombre= "al2",
-        descripcion= "descc2"
+        nombre= "alSismo regional", 
+        descripcion= "Hasta 1000 km2"
     )
 
     alcanceSismo3 = AlcanceSismo(
-        nombre= "al3",
-        descripcion= "descc3"
+        nombre= "Tele sismo",
+        descripcion= "Mas de 1000 km"
     )
 
     origenSismo1 = OrigenDeGeneracion(
-        nombre= "or",
-        descripcion= "descc"
+        nombre= "Tectonico", 
+        descripcion= "Movimiento de placas tectonicas"
     )
 
     origenSismo2 = OrigenDeGeneracion(
-        nombre= "or2",
-        descripcion= "descc2"
+        nombre= "Volcanico", 
+        descripcion= "Actividad volcanica"
     )
 
     origenSismo3 = OrigenDeGeneracion(
-        nombre= "or3",
-        descripcion= "descc3"
+        nombre= "Desconocido",
+        descripcion= "Origen desconocido"
     )
 
     clasificacionSismo1 = ClasificacionSismo(
-        nombre = "c",
+        nombre = "Superficial",
         kmProfundidadDesde = 5,
-        kmProfundidadHasta = 100
+        kmProfundidadHasta = 70
     )
 
     clasificacionSismo2 = ClasificacionSismo(
-        nombre = "c2",
-        kmProfundidadDesde = 52,
-        kmProfundidadHasta = 102
+        nombre = "Intermedio",
+        kmProfundidadDesde = 71,
+        kmProfundidadHasta = 300
     )
 
     clasificacionSismo3 = ClasificacionSismo(
-        nombre = "c3",
-        kmProfundidadDesde = 53,
-        kmProfundidadHasta = 103
+        nombre = "Profundo",
+        kmProfundidadDesde = 301,
+        kmProfundidadHasta = 700
     )
     
     # Crear eventos sísmicos de ejemplo
@@ -213,7 +230,7 @@ def main():
         origenSismo= origenSismo3,
         clasificacionSismo= clasificacionSismo3,
         alcanceSismo=alcanceSismo3,
-        empleado=None,
+        empleado=empleado3,
         lista_Series_temporales=lista_series_temporales
     )
     evento2 = EventoSismico(

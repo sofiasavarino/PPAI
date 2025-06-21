@@ -7,14 +7,14 @@ class GestorRegistrarResultado:
         self.eventoAutoDetectado = None
         self.eventoSismicoSeleccionado = None
         self.eventoBloqueadoEnRevision = None
-        self.detalleEventoSismico = None
+        self.detalleEventoSismico = []
         self.usuarioLogueado = None
         self.eventoRechazado = None
         self.fechaHoraOcurrenciaEvento = None
         self.clasificacionEvento = None
 
         #agregar al diagrama de clases:
-        self.empleadoEmpleadoLogueado = None
+        self.empleadoLogueado = None
 
         #Relaciones con otras clases:
         self.pantalla = pantalla
@@ -47,6 +47,7 @@ class GestorRegistrarResultado:
                 self.eventoAutoDetectado.append(datosEvento)
         self.ordenarPorFechayHora(self.eventoAutoDetectado)
         self.pantalla.presentarEventos(self.eventoAutoDetectado)
+        return self.eventoAutoDetectado
 
 
     def ordenarPorFechayHora(self,eventoAutoDetectado):
@@ -63,32 +64,32 @@ class GestorRegistrarResultado:
         self.buscarEmpleadoLogueado()
         self.fechaHoraOcurrenciaEvento = self.obtenerFechaHora()
         self.bloquearEvento(self.eventoSismicoSeleccionado, self.fechaHoraOcurrenciaEvento)
-        nombreSismo, clasificacionSismo, origenSismo, series = self.buscarDatosSismicosRegistrados()
+        self.buscarDatosSismicosRegistrados()
 
-        print( f"nombreSismo: {nombreSismo}\nclasificacionSismo: {clasificacionSismo}\norigenSismo: {origenSismo}\nseries: {series}\n\n")
+        #print( f"nombreSismo: {nombreSismo}\nclasificacionSismo: {clasificacionSismo}\norigenSismo: {origenSismo}\nseries: {series}\n\n")
 
-        self.clasificarPorEstacion(series)
+        #self.clasificarPorEstacion(series)
         self.llamarCasoDeUsoGenerarSismograma()
-        self.habilitarOpcionSismico()
+        #self.habilitarOpcionSismico()
 
 
     def buscarEstadoBloqueados(self, estado):
-        for estado in estado:
+        for estado in self.estado:
             if estado.esAmbitoEventoSismico() and estado.esBloqueado():
-                self.eventoBloqueadoEnRevision = estado
+                self.estado_bloqueado = estado
+                print("Estado bloqueado:", self.estado_bloqueado)
 
 
     def buscarEmpleadoLogueado(self):
         self.usuarioLogueado = self.sesion.getNombreUsuario()
-
-        print("EMPLEADOOOOO:",self.empleado)
         for empleado in self.empleado:
             if empleado.esTuUsuario(self.usuarioLogueado):
-                self.empleadoEmpleadoLogueado = self.empleado
-                messagebox.showinfo("Empleado encontrado", f"Empleado \n Nombre: {empleado.nombre} \n Apellido: {empleado.apellido}")
+                self.empleadoLogueado = empleado
+                print(f"Empleado \n Nombre: {self.empleadoLogueado.nombre} \n Apellido: {self.empleadoLogueado.apellido}")                #messagebox.showinfo("Empleado encontrado", f"Empleado \n Nombre: {empleado.nombre} \n Apellido: {empleado.apellido}")
                 break
         else:
-            messagebox.showinfo("Empleado no encontrado", "No se encontró el empleado logueado")
+            print("no se encontro el empleado")
+            #messagebox.showinfo("Empleado no encontrado", "No se encontró el empleado logueado")
 
 
     def obtenerFechaHora(self):
@@ -98,16 +99,18 @@ class GestorRegistrarResultado:
         
     def bloquearEvento(self, eventoSismicoSeleccionado, fechaHoraOcurenciaEvento):
         if eventoSismicoSeleccionado:
-            print(self.eventoBloqueadoEnRevision)
-            eventoSismicoSeleccionado.bloquear(self.eventoBloqueadoEnRevision, self.fechaHoraOcurrenciaEvento)
-
+            self.eventoBloqueadoEnRevision = eventoSismicoSeleccionado.bloquear(self.estado_bloqueado, self.fechaHoraOcurrenciaEvento)
+            print("EVENTO BLOQUEADO:",self.eventoBloqueadoEnRevision)
         else:
             messagebox.showinfo("No hay evento sísmico seleccionado para bloquear")
 
     
     def buscarDatosSismicosRegistrados(self):
         print("VA a funcion  buscar datos sismicos")
-        return self.eventoSismicoSeleccionado.buscarDatosSismicosRegistrados()
+        self.detalleEventoSismico = self.eventoSismicoSeleccionado.buscarDatosSismicosRegistrados()
+        print(self.detalleEventoSismico)
+        self.habilitarOpcionSismico()
+        
     
 
     def clasificarPorEstacion(self, series):
@@ -121,25 +124,27 @@ class GestorRegistrarResultado:
 
 
     def habilitarOpcionSismico(self):
-        self.pantalla.habilitarOpcionMapaSismico()
-        self.pantalla.habilitarOpcionEstacionSismologica()
-        self.pantalla.solicitarOpcionVisualizarMapa()
+        self.pantalla.mostrarDatosEventoSismico(self.detalleEventoSismico)
+        #self.pantalla.habilitarOpcionMapaSismico()
+        #self.pantalla.habilitarOpcionEstacionSismologica()
+        #self.pantalla.solicitarOpcionVisualizarMapa()
 
 
     def tomarMapaSismico(self):
-        self.pantalla.habilitarOpcionModificacionDatos()
+        #self.pantalla.habilitarOpcionModificacionDatos()
         self.pantalla.solicitarOpcionModifiacionDatos()
 
 
     def tomarModificacionDatos(self):
-        self.pantalla.habilitarOpciones()
-        self.pantalla.solicitarSeleccionarOpcion()
+        #self.pantalla.habilitarOpciones()
+        #self.pantalla.solicitarSeleccionarOpcion()
+        print("hola")
 
 
     def tomarSeleccion(self, seleccion):
         messagebox.showinfo("Donde Estoy??", f"tomarSeleccion()\nSeleccion: {seleccion}")
         self.accionSeleccionada = seleccion
-        self.validarExistencia(seleccion=seleccion)
+        self.validarExistencia(seleccion)
         self.buscarEstadoRechazado(self.estado)
         self.buscarEmpleadoLogueado()
         fechaHoraOcurrenciaEvento = self.obtenerFechaHora()
@@ -161,23 +166,24 @@ class GestorRegistrarResultado:
         else:
             print("Faltan datos obligatorios del evento o no se seleccionó una acción.")
             return False
-        
+
 
     def buscarEstadoRechazado(self, estado):
-        estados_rechazados = None
-        for estado in estado:
+        for estado in self.estado:
             if estado.esAmbitoEventoSismico() and estado.esRechazado():
-                estados_rechazados = estado
-        return estados_rechazados
-
+                self.estado_rechazado = estado
+                print("Estado recha:",self.estado_rechazado)
 
     def rechazarEvento(self, eventoSismicoSeleccionado, fechaHoraOcurrenciaEvento):
         if eventoSismicoSeleccionado:
-            estado_rechazado = self.eventoRechazado
-            eventoSismicoSeleccionado.rechazar(estado_rechazado, fechaHoraOcurrenciaEvento)
+            self.eventoRechazado =  eventoSismicoSeleccionado.bloquear(self.estado_rechazado,self.fechaHoraOcurrenciaEvento)
+            print("EVENTO RECHAZADO:",self.eventoRechazado)
         else:
             messagebox.showinfo("No hay evento sísmico seleccionado para rechazar")
         
+
+
+    
 
     def finCU(self):
         print("Fin del caso de uso")
