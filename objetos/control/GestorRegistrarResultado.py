@@ -75,7 +75,7 @@ class GestorRegistrarResultado:
         self.usuarioLogueado = self.sesion.getNombreUsuario()
         for empleado in self.empleado:
             if empleado.esTuUsuario(self.usuarioLogueado):
-                self.empleadoLogueado = empleado.getNombre()
+                self.empleadoLogueado = empleado
                 print(f"Empleado \n Nombre: {self.empleadoLogueado}")
                 break
         else:
@@ -225,4 +225,5 @@ class GestorRegistrarResultado:
         for evento in self.eventoSismico:
             datosEvento = evento.datosEventos()
             lista_eventos.append(datosEvento)
+        
         return lista_eventos

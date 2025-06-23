@@ -399,7 +399,7 @@ class PantallaRegistrarResultado:
             for i, e in enumerate(eventos, start=1):
                 texto += (
                     f"{i}. Fecha Inicio: {e['fechaHoraOcurrencia']}\n"
-                    f"   Fecha fin: {e['fechaHoraFin']}\n"
+                    f"   Fecha fin: {e.get('fechaHoraFin') or '-'}\n"
                     f"   Epicentro: ({e['latitudEpicentro']}, {e['longitudEpicentro']})\n"
                     f"   Hipocentro: ({e['latitudHipocentro']}, {e['longitudHipocentro']})\n"
                     f"   Magnitud: {e['valorMagnitud']}\n"
@@ -407,8 +407,10 @@ class PantallaRegistrarResultado:
                     f"   Alcance Sismo: {e.get('alcanceSismo', '-')}\n"
                     f"   Origen Sismo: {e.get('origenSismo', '-')}\n"
                     f"   Clasificación: {e.get('clasificacion', '-')}\n"
-                    f"   Analista supervisor: {e.get('analistaSupervisor', '-')}\n"
                     f"   Estado anterior: {e.get('ultimoEstado', '-')}\n\n"
+                    f"   Fecha/Hora inicio cambio de estado: {e['cambioEstadoFechaHora']}\n"
+                    f"   Fecha/Hora fin cambio de estado: {e.get('fechaHoraFin') or '-'}\n"
+                    f"   Responsable: {e['cambioEstadoResponsable']}\n\n"
                 )
 
         # Crear ventana nueva

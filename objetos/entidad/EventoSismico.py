@@ -135,18 +135,23 @@ class EventoSismico:
             "alcanceSismo": self.alcanceSismo.getNombre() ,
             "origenSismo": self.origenDeCreacion.getNombre(),
             "clasificacion": self.clasificacion.getNombre(),
-            "analistaSupervisor": self.analistaSupervisor.getNombre() if self.analistaSupervisor else "Sin asignar",
-
         }
         
         
         if self.cambioEstado:
-            from datetime import datetime
-
             estado_anterior = max(
                 (cambio for cambio in self.cambioEstado if cambio.getFecha() is not None),
                 key=lambda cambio: cambio.getFecha(),
                 default=None)
+            for cambio in self.cambioEstado:
+                if cambio.esUltimo():
+                    datos["cambioEstadoFechaHora"] = cambio.getFechaHoraInicio()
+                    responsable = cambio.getResponsable()
+                    if responsable is not None:
+                        datos["cambioEstadoResponsable"] = responsable
+                    else:
+                        datos["cambioEstadoResponsable"] = "No se encontró responsable"
+                    datos['fechaHoraFin'] = cambio.getFecha()
 
         datos["ultimoEstado"] = estado_anterior.getNombreEstado() if estado_anterior else "No tiene"
         return datos

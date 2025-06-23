@@ -22,4 +22,9 @@ class CambioEstado:
         return self.fechaHoraFin
     
     def getResponsable(self):
-        return self.responsableInspeccion.getNombre()
+        if self.responsableInspeccion is not None:
+            return self.responsableInspeccion.getNombre()
+        return None
+    
+    def getFechaHoraInicio(self):
+        return self.fechaHoraInicio
