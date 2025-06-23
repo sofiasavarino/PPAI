@@ -127,7 +127,7 @@ class GestorRegistrarResultado:
 
 
     def tomarMapaSismico(self):
-        self.pantalla.solicitarOpcionModifiacionDatos()
+        self.pantalla.habilitarYSolicitarOpcionModifiacionDatos()
 
 
     def tomarModificacionDatos(self,rta):

@@ -265,13 +265,12 @@ class PantallaRegistrarResultado:
     
         )
         self.btn_guardar.grid(row=fila + 1, column=1, sticky="e", padx=10, pady=10)
-        self.habilitarOpciones(ventana)
+        self.habilitarYSolicitarOpciones(ventana)
         ventana.update_idletasks()
-        ventana.after(200, self.habilitarOpcionMapaSismico)
+        ventana.after(200, self.habilitarYSolicitarOpcionMapaSismico)
 
 
-    def habilitarOpcionMapaSismico(self):
-        #Es mejor hacer el habilitar y solicitar opcion en una sola
+    def habilitarYSolicitarOpcionMapaSismico(self):
         print("Se habilita opción para mapa sísmico")
         respuesta = messagebox.askyesno("Visualizar mapa", "¿Desea visualizar en un mapa el evento sísmico y las estaciones sismológicas involucradas?")
         self.opcMapaSismico(respuesta)
@@ -279,12 +278,12 @@ class PantallaRegistrarResultado:
 
     def opcMapaSismico(self, respuesta):
         if respuesta:
-            pass
+            self.gestor.tomarMapaSismico()
         else:
             self.gestor.tomarMapaSismico()
 
 
-    def solicitarOpcionModifiacionDatos(self):
+    def habilitarYSolicitarOpcionModifiacionDatos(self):
         rta = messagebox.askyesno("Datos evento", "¿Desea Modificar los datos?")
         self.opcModificarDatos(rta)
 
@@ -315,7 +314,7 @@ class PantallaRegistrarResultado:
         messagebox.showinfo("Cambios guardados", "Los datos fueron actualizados correctamente.")
 
 
-    def habilitarOpciones(self, ventana):
+    def habilitarYSolicitarOpciones(self, ventana):
         print("Opciones habilitadas: Confirmar / Rechazar / Solicitar revisión a experto")
         btn_frame = tk.Frame(ventana, bg="#654321")
         btn_frame.grid(row=10, column=0, columnspan=2, pady=40 )
@@ -410,7 +409,6 @@ class PantallaRegistrarResultado:
                     f"   Clasificación: {e.get('clasificacion', '-')}\n"
                     f"   Analista supervisor: {e.get('analistaSupervisor', '-')}\n"
                     f"   Estado anterior: {e.get('ultimoEstado', '-')}\n\n"
-                    
                 )
 
         # Crear ventana nueva
