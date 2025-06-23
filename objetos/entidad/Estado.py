@@ -16,7 +16,7 @@ class Estado:
         return False
 
     def esBloqueado(self):
-        if self.nombre == "Bloqueado":
+        if self.nombre == "Bloqueado En Revisión":
             return True
         return False
     
@@ -24,7 +24,16 @@ class Estado:
         if self.nombre == "Rechazado":
             return True
         return False
-        
+
+   #Metodo añadido por alternativa 1     
+    def getNombre(self):
+        return self.nombre
+    
+    #Método añadido por alternativa 2
+    def esConfirmado(self):
+        if self.nombre == "Confirmado":
+            return True
+        return False
  
 
 

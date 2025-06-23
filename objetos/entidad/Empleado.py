@@ -10,3 +10,6 @@ class Empleado:
 
     def esTuUsuario(self, nombre_usuario):
         return self.usuario.getNombre() == nombre_usuario
+    
+    def getNombre(self):
+        return self.nombre

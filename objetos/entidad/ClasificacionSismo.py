@@ -7,3 +7,7 @@ class ClasificacionSismo:
     def getNombre(self):
         print("saque nombre clasi 5")
         return self.nombre
+    
+    #Método que se agrega por alternativa 1
+    def setNombre(self,clasificacion):
+        self.nombre = clasificacion

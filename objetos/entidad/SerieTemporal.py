@@ -18,4 +18,5 @@ class SerieTemporal:
             series.append(muestra.getDatos())
         
         print("AHora deberia retorna estacion sismologia de sismohgrafo")
-        return self.sismografo.getEstacionSismologica(), series
+        codigoEstacion = self.sismografo.getEstacionSismologica()
+        return codigoEstacion, series

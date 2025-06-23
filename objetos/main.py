@@ -21,16 +21,16 @@ def main():
     # Crear estados de ejemplo
     estado_auto = Estado(nombre="Auto Detectado", ambito="Evento Sismico", descripcion="Detectado automáticamente")
     estado_manual = Estado(nombre="Manual", ambito="Evento Sismico", descripcion="Cargado manualmente")
-    estado_bloqueado = Estado(nombre="Bloqueado", ambito="Evento Sismico", descripcion="Bloqueado por el sistema")
+    estado_bloqueado = Estado(nombre="Bloqueado En Revisión", ambito="Evento Sismico", descripcion="Bloqueado por el sistema")
     estado_rechazado = Estado(nombre="Rechazado", ambito="Evento Sismico", descripcion="Rechazado por el usuario")
     estado_derivado= Estado(nombre="Derivado", ambito="Evento Sismico", descripcion="Derivado a analista supervisor")
-    estado_aceptado = Estado(nombre="Aceptado", ambito="Evento Sismico", descripcion="")
+    estado_confirmado = Estado(nombre="Confirmado", ambito="Evento Sismico", descripcion="")
     estado_pendienteCierre = Estado(nombre="Pendiente de cierre", ambito="Evento Sismico", descripcion="")
     estado_cerrado = Estado(nombre="Cerrado", ambito="Evento Sismico", descripcion="")
     estado_pendienteRevision = Estado(nombre="Sin revision", ambito="Evento Sismico", descripcion="autodetectados pedientes de revision")
 
 
-    lista_estados = [estado_auto, estado_manual, estado_bloqueado, estado_rechazado, estado_aceptado,estado_derivado,estado_pendienteCierre,estado_cerrado, estado_pendienteRevision]
+    lista_estados = [estado_auto, estado_manual, estado_bloqueado, estado_rechazado, estado_confirmado,estado_derivado,estado_pendienteCierre,estado_cerrado, estado_pendienteRevision]
 
     estacionSismologica1 = EstacionSismologica( 
         codigoEstacion = "EST1",
@@ -167,7 +167,7 @@ def main():
     )
 
     alcanceSismo2 = AlcanceSismo(
-        nombre= "alSismo regional", 
+        nombre= "Sismo regional", 
         descripcion= "Hasta 1000 km2"
     )
 
@@ -223,6 +223,7 @@ def main():
                 fechaHoraInicio="2024-06-01 15:00",
                 fechaHoraFin=None,
                 estado=estado_auto,
+                responsableInspeccion=None
             )
         ],
         estado=estado_auto,
@@ -246,6 +247,7 @@ def main():
                 fechaHoraInicio="2024-06-02 14:30",
                 fechaHoraFin=None,
                 estado=estado_auto,
+                responsableInspeccion= None
             )
         ],
         estado=estado_manual,
@@ -253,7 +255,7 @@ def main():
         origenSismo= origenSismo2,
         clasificacionSismo= clasificacionSismo2,
         alcanceSismo=alcanceSismo2,
-        empleado=None,
+        empleado=empleado1,
         lista_Series_temporales=lista_series_temporales
     )
     evento3 = EventoSismico(
@@ -269,6 +271,7 @@ def main():
                 fechaHoraInicio="2024-06-01 13:50",
                 fechaHoraFin=None,
                 estado=estado_auto,
+                responsableInspeccion=None
             )
         ],
         estado=estado_auto,
@@ -276,7 +279,7 @@ def main():
         origenSismo= origenSismo1,
         clasificacionSismo= clasificacionSismo1,
         alcanceSismo=alcanceSismo1,
-        empleado=None,
+        empleado=empleado2,
         lista_Series_temporales=lista_series_temporales
     )
 
@@ -286,7 +289,7 @@ def main():
 
     
 
-    gestor = GestorRegistrarResultado(sesion= sesion1,lista_sismografos=lista_sismografos, lista_empleados=lista_empleados, lista_eventos=lista_eventos, lista_estados= lista_estados,  pantalla=None)
+    gestor = GestorRegistrarResultado(sesion= sesion1, lista_empleados=lista_empleados, lista_eventos=lista_eventos, lista_estados= lista_estados,  pantalla=None)
     pantalla = PantallaRegistrarResultado(gestor)
     gestor.pantalla = pantalla
     pantalla.opcRegistrarResultado()

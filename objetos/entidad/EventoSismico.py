@@ -1,6 +1,6 @@
 from entidad.CambioEstado import CambioEstado
 class EventoSismico:
-    def __init__(self,lista_Series_temporales,fechaHoraFin,fechaHoraOcurrencia,latitudEpicentro,latitudHipocentro,longitudEpicentro,longitudHipocentro,valorMagnitud, cambioEstado, estado, serieTemporal, origenSismo, clasificacionSismo, alcanceSismo, empleado):
+    def __init__(self,lista_Series_temporales,fechaHoraFin,fechaHoraOcurrencia,latitudEpicentro,latitudHipocentro,longitudEpicentro,longitudHipocentro,valorMagnitud, cambioEstado, estado, origenSismo, clasificacionSismo, alcanceSismo, empleado, serieTemporal):
         #Atributos Propios:
         self.fechaHoraFin = fechaHoraFin
         self.fechaHoraOcurrencia = fechaHoraOcurrencia
@@ -11,17 +11,13 @@ class EventoSismico:
         self.valorMagnitud = valorMagnitud
 
         #Relaciones con otras clases:
-        # self.cambioEstado = []
         self.cambioEstado = cambioEstado if cambioEstado is not None else []
         self.estadoActual = estado
         self.analistaSupervisor = empleado
         self.origenDeCreacion = origenSismo
         self.alcanceSismo = alcanceSismo
         self.clasificacion = clasificacionSismo
-        self.serieTemporal = serieTemporal
-
-        #Otros atributos (que deberiamos o sacar o agregar a las clases)
-        self.lista_Series_temporales = lista_Series_temporales
+        self.serieTemporal = lista_Series_temporales
 
     
     def sosAutoDetectado(self):
@@ -45,6 +41,9 @@ class EventoSismico:
     def getValorMagnitud(self):
         return self.valorMagnitud
 
+    def getEstado(self):
+        return self.estadoActual.getNombre()
+
     def obtenerDatos(self):
         return {
         "fechaHoraOcurrencia": self.getFechaHoraOcurrencia(),
@@ -52,8 +51,9 @@ class EventoSismico:
         "longitudEpicentro": self.getLongitudEpicentro(),
         "latitudHipocentro": self.getLatitudHipocentro(),
         "longitudHipocentro": self.getLongitudHipocentro(),
-        "valorMagnitud": self.getValorMagnitud()
-    }
+        "valorMagnitud": self.getValorMagnitud(),
+        }
+    
 
     def getDatos(self):
         print("estoy en get datos de eventos 3")
@@ -64,28 +64,38 @@ class EventoSismico:
         return nombreSismo, clasificacion, origenSismo, series
 
 
-    def bloquear(self, estado_bloqueado, fechaHora):
+    def bloquear(self, estado_bloqueado, fechaHora,empleadoLog):
         self.estadoActual = estado_bloqueado
-        self.buscarCambioEstadoEvento(fechaHora)
+        self.buscarCambioEstadoEvento(fechaHora,empleadoLog)
         return self
 
-    def rechazar(self, estado_rechazado, fechaHora):
+    def rechazar(self, estado_rechazado, fechaHora,empleadoLog):
         self.estadoActual = estado_rechazado
-        self.buscarCambioEstadoEvento(fechaHora)
+        self.buscarCambioEstadoEvento(fechaHora,empleadoLog)
+        return self
+    
+    #Método añadidio por alternativa 2
+    def confirmar(self, estado_confirmado, fechaHora, empleadoLog):
+        print("confirmando evento")
+        self.estadoActual = estado_confirmado
+        print(self.estadoActual)
+        self.buscarCambioEstadoEvento(fechaHora, empleadoLog)
         return self
 
-    def buscarCambioEstadoEvento(self, fechaHora):
+
+    def buscarCambioEstadoEvento(self, fechaHora,empleadoLog):
         for cambio in self.cambioEstado:
             if cambio.esUltimo():
                 cambio.setFechaHoraFin(fechaHora)
-        self.crearCambioEstado(self.estadoActual, fechaHora)
+        self.crearCambioEstado(self.estadoActual, fechaHora,empleadoLog)
     
 
-    def crearCambioEstado(self, estadoActual, fechaHora):
+    def crearCambioEstado(self, estadoActual, fechaHora,empleadoLog):
         nuevo_cambio = CambioEstado(
             fechaHoraInicio=fechaHora,
             fechaHoraFin=None,
-            estado= estadoActual,
+            estado = estadoActual,
+            responsableInspeccion = empleadoLog
         )
         self.cambioEstado.append(nuevo_cambio)
         print("Cambio hecho")
@@ -94,18 +104,54 @@ class EventoSismico:
 
     def buscarDatosSismicosRegistrados(self):
         print("estoy en buscar datos sismicos registrados de evento 2")
-        return self.getDatos()
-       
-        # for sismografoo in lista_sismografos:
-        #     self.getDatos(sismografoo)
-        #     print(f"Datos del sismógrafo {self.getDatos(sismografoo)}:")
-        #self.buscarDatosSeriesTemporales(self.lista_Series_temporales)
-
+        series = []
+        series = self.getDatos()
+        print(series)
+        return series
 
     def buscarDatosSeriesTemporales(self):
         print("estoy en buscar series temporales 7")
         series = []
-        for serie in self.lista_Series_temporales:
+        for serie in self.serieTemporal:
             series.append(serie.getSerieTemporal())
         return series
+    
+    def actualizarDatos(self, alcance, clasificacion, origen):
+        self.alcanceSismo.setNombre(alcance)
+        self.clasificacion.setNombre(clasificacion)
+        self.origenDeCreacion.setNombre(origen)
 
+    def getFechaHoraFin(self):
+        return self.fechaHoraFin
+
+    def datosEventos(self):
+        datos = {
+            "fechaHoraOcurrencia": self.getFechaHoraOcurrencia(),
+            "fechaHoraFin": self.getFechaHoraFin(),
+            "latitudEpicentro": self.getLatitudEpicentro(),
+            "longitudEpicentro": self.getLongitudEpicentro(),
+            "latitudHipocentro": self.getLatitudHipocentro(),
+            "longitudHipocentro": self.getLongitudHipocentro(),
+            "valorMagnitud": self.getValorMagnitud(),
+            "estado": self.getEstado(),
+            "alcanceSismo": self.alcanceSismo.getNombre() ,
+            "origenSismo": self.origenDeCreacion.getNombre(),
+            "clasificacion": self.clasificacion.getNombre(),
+            "analistaSupervisor": self.analistaSupervisor.getNombre() if self.analistaSupervisor else "Sin asignar",
+
+        }
+        
+        
+        if self.cambioEstado:
+            from datetime import datetime
+
+            estado_anterior = max(
+                (cambio for cambio in self.cambioEstado if cambio.getFecha() is not None),
+                key=lambda cambio: cambio.getFecha(),
+                default=None)
+
+        datos["ultimoEstado"] = estado_anterior.getNombreEstado() if estado_anterior else "No tiene"
+        return datos
+    
+            
+        

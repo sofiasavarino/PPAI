@@ -1,12 +1,12 @@
 class CambioEstado:
-    def __init__(self, fechaHoraInicio, fechaHoraFin, estado):
+    def __init__(self, fechaHoraInicio, fechaHoraFin, estado, responsableInspeccion):
         #Atributos Propios:
         self.fechaHoraInicio = fechaHoraInicio
         self.fechaHoraFin = fechaHoraFin
 
         #Relaciones con otras clases:
         self.estado = estado
-        self.responsableInspeccion = None
+        self.responsableInspeccion = responsableInspeccion
 
     def esUltimo(self):
         if self.fechaHoraFin is None or self.fechaHoraFin == "":
@@ -14,4 +14,12 @@ class CambioEstado:
     
     def setFechaHoraFin(self, fecha):
         self.fechaHoraFin = fecha
+
+    def getNombreEstado(self):
+        return self.estado.getNombre()
         
+    def getFecha(self):
+        return self.fechaHoraFin
+    
+    def getResponsable(self):
+        return self.responsableInspeccion.getNombre()
