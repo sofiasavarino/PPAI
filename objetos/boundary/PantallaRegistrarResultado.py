@@ -333,7 +333,7 @@ class PantallaRegistrarResultado:
             highlightthickness=0,  # Elimina borde de foco
             highlightbackground="#F5F5DC",  # Color del fondo del borde de foco (por si lo muestra igual)
             highlightcolor="#F5F5DC",
-            command=lambda: self.opcion_seleccionada(
+            command=lambda: self.ingresarSeleccion(
                 "Confirmar",
                 ventana,
             )
@@ -354,7 +354,7 @@ class PantallaRegistrarResultado:
             highlightthickness=0,  # Elimina borde de foco
             highlightbackground="#F5F5DC",  # Color del fondo del borde de foco (por si lo muestra igual)
             highlightcolor="#F5F5DC",
-            command=lambda: self.opcion_seleccionada(
+            command=lambda: self.ingresarSeleccion(
                 "Rechazar",
                 ventana,
             )
@@ -375,7 +375,7 @@ class PantallaRegistrarResultado:
             highlightthickness=0,  # Elimina borde de foco
             highlightbackground="#F5F5DC",  # Color del fondo del borde de foco (por si lo muestra igual)
             highlightcolor="#F5F5DC",
-            command=lambda: self.opcion_seleccionada(
+            command=lambda: self.ingresarSeleccion(
                 "derivar",
                 ventana,
             )
@@ -383,7 +383,7 @@ class PantallaRegistrarResultado:
         btn_derivar.pack(side=tk.LEFT, padx=15)
 
 
-    def opcion_seleccionada(self, opcion, ventana):
+    def ingresarSeleccion(self, opcion, ventana):
         self.gestor.tomarSeleccion(opcion)
         ventana.destroy()
         self.gestor.buscarEventosAutoDetectados()

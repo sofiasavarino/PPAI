@@ -54,7 +54,7 @@ class GestorRegistrarResultado:
         self.eventoSismicoSeleccionado = evento_sismico
         print(self.eventoSismicoSeleccionado)
 
-        self.buscarEstadoBloqueados()
+        self.buscarEstadoBloqueados(self.estado)
 
         # llamados al resto de funciones
         self.buscarEmpleadoLogueado()
@@ -64,7 +64,7 @@ class GestorRegistrarResultado:
         self.llamarCasoDeUsoGenerarSismograma()
 
 
-    def buscarEstadoBloqueados(self):
+    def buscarEstadoBloqueados(self, estado):
         for estado in self.estado:
             if estado.esAmbitoEventoSismico() and estado.esBloqueado():
                 self.estado_bloqueado = estado
@@ -146,12 +146,12 @@ class GestorRegistrarResultado:
         # 🧠 Tomar acción según el tipo
         if seleccion == "Rechazar":
             print("se guardo opc rechazar")
-            self.buscarEstadoRechazado()
+            self.buscarEstadoRechazado(self.estado)
             self.rechazarEvento(self.eventoSismicoSeleccionado)
         elif seleccion == "Confirmar":
             #Alternativa 2: se selecciona confirmar evento
             print("se seleccionó conf")
-            self.buscarEstadoConfirmado()
+            self.buscarEstadoConfirmado(self.estado)
             self.confirmarEvento(self.eventoSismicoSeleccionado)
             print("se selecciono confirmar")
         elif seleccion == "derivar":
@@ -177,7 +177,7 @@ class GestorRegistrarResultado:
             return False
 
 
-    def buscarEstadoRechazado(self):
+    def buscarEstadoRechazado(self,estado):
         for estado in self.estado:
             if estado.esAmbitoEventoSismico() and estado.esRechazado():
                 self.estado_rechazado = estado
@@ -186,7 +186,7 @@ class GestorRegistrarResultado:
 
     def rechazarEvento(self, eventoSismicoSeleccionado):
         if eventoSismicoSeleccionado:
-            self.eventoRechazado =  eventoSismicoSeleccionado.rechazar(self.estado_bloqueado, self.fechaHoraOcurrenciaEvento,self.empleadoLogueado)
+            self.eventoRechazado =  eventoSismicoSeleccionado.rechazar(self.estado_rechazado, self.fechaHoraOcurrenciaEvento,self.empleadoLogueado)
             print("EVENTO RECHAZADO:",self.eventoRechazado)
         else:
             messagebox.showinfo("No hay evento sísmico seleccionado para rechazar")
@@ -197,7 +197,7 @@ class GestorRegistrarResultado:
         messagebox.showinfo("Fin", f"Fin del caso de uso.")
 
     #Métodos por alternativa 2: se selecciona confirmar evento
-    def buscarEstadoConfirmado(self):
+    def buscarEstadoConfirmado(self,estado):
         print("buscando estado confirmdo")
         for estado in self.estado:
             if estado.esAmbitoEventoSismico() and estado.esConfirmado():
@@ -207,7 +207,7 @@ class GestorRegistrarResultado:
     def confirmarEvento(self,eventoSismicoSeleccionado):
         print("por confirmar evento)")
         if eventoSismicoSeleccionado:
-            self.eventoConfirmado =  eventoSismicoSeleccionado.confirmar(self.estado_bloqueado, self.fechaHoraOcurrenciaEvento,self.empleadoLogueado)
+            self.eventoConfirmado =  eventoSismicoSeleccionado.confirmar(self.estado_confirmado, self.fechaHoraOcurrenciaEvento,self.empleadoLogueado)
             print("EVENTO confirmado:",self.eventoConfirmado)
         else:
             messagebox.showinfo("No hay evento sísmico seleccionado para rechazar")

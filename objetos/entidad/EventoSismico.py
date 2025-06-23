@@ -78,7 +78,6 @@ class EventoSismico:
     def confirmar(self, estado_confirmado, fechaHora, empleadoLog):
         print("confirmando evento")
         self.estadoActual = estado_confirmado
-        print(self.estadoActual)
         self.buscarCambioEstadoEvento(fechaHora, empleadoLog)
         return self
 
@@ -99,8 +98,7 @@ class EventoSismico:
         )
         self.cambioEstado.append(nuevo_cambio)
         print("Cambio hecho")
-        
-        
+          
 
     def buscarDatosSismicosRegistrados(self):
         print("estoy en buscar datos sismicos registrados de evento 2")
