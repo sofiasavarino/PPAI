@@ -15,6 +15,8 @@ class CambioEstado:
     def setFechaHoraFin(self, fecha):
         self.fechaHoraFin = fecha
 
+
+    #Métodos añadidios para mostar listado de eventos
     def getNombreEstado(self):
         return self.estado.getNombre()
         

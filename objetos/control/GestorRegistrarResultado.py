@@ -52,7 +52,6 @@ class GestorRegistrarResultado:
            
     def seleccionarEvento(self, evento_sismico):
         self.eventoSismicoSeleccionado = evento_sismico
-        print(self.eventoSismicoSeleccionado)
 
         self.buscarEstadoBloqueados(self.estado)
 
@@ -76,11 +75,12 @@ class GestorRegistrarResultado:
         for empleado in self.empleado:
             if empleado.esTuUsuario(self.usuarioLogueado):
                 self.empleadoLogueado = empleado
-                print(f"Empleado \n Nombre: {self.empleadoLogueado}")
+                print(f"Empleado \n Nombre: {self.empleadoLogueado.getNombre()}")
+                print(f"Usuario logueado:",self.usuarioLogueado)
                 break
         else:
             print("no se encontro el empleado")
-            #messagebox.showinfo("Empleado no encontrado", "No se encontró el empleado logueado")
+
 
 
     def obtenerFechaHora(self):
