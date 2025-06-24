@@ -38,7 +38,7 @@ class GestorRegistrarResultado:
                 datosEvento = evento.obtenerDatos()
                 datosEvento["objeto"] = evento
                 self.eventoAutoDetectado.append(datosEvento)
-                
+
         self.ordenarPorFechayHora(self.eventoAutoDetectado)
         self.pantalla.presentarEventos(self.eventoAutoDetectado)
         return self.eventoAutoDetectado
@@ -170,7 +170,6 @@ class GestorRegistrarResultado:
         ):
             return True
         else:
-            print(seleccion)
             print("Faltan datos obligatorios del evento o no se seleccionó una acción.")
             return False
 
@@ -194,24 +193,24 @@ class GestorRegistrarResultado:
         print("Fin del caso de uso")
         messagebox.showinfo("Fin", f"Fin del caso de uso.")
 
+
     #Métodos por alternativa 2: se selecciona confirmar evento
     def buscarEstadoConfirmado(self,estado):
         print("buscando estado confirmdo")
         for estado in self.estado:
             if estado.esAmbitoEventoSismico() and estado.esConfirmado():
                 self.estado_confirmado = estado
-                print("Estado conf:",self.estado_confirmado)
+    
 
     def confirmarEvento(self,eventoSismicoSeleccionado):
         print("por confirmar evento)")
         if eventoSismicoSeleccionado:
             self.eventoConfirmado =  eventoSismicoSeleccionado.confirmar(self.estado_confirmado, self.fechaHoraOcurrenciaEvento,self.empleadoLogueado)
-            print("EVENTO confirmado:",self.eventoConfirmado)
         else:
-            messagebox.showinfo("No hay evento sísmico seleccionado para rechazar")
+            messagebox.showinfo("No hay evento sísmico seleccionado para confirmar")
 
 
-    #Método añadido por alternativa 1 
+    #Método añadido por alternativa 1: modificar datos
     def actualizarDatosEvento(self, alcance, clasificacion, origen):
         self.eventoSismicoSeleccionado.actualizarDatos(alcance, clasificacion, origen)
         print("Datos del evento actualizados desde botón 'Guardar'")

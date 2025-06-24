@@ -7,6 +7,6 @@ class OrigenDeGeneracion:
         print("saque nombre ori 6")
         return self.nombre
     
-    #Método que se agrega por alternativa 1
+    #Método que se agrega por alternativa 1: modificar datos
     def setNombre(self,origen):
         self.nombre = origen

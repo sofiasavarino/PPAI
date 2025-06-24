@@ -73,21 +73,12 @@ class EventoSismico:
         self.estadoActual = estado_rechazado
         self.buscarCambioEstadoEvento(fechaHora,empleadoLog)
         return self
-    
-    #Método añadidio por alternativa 2
-    def confirmar(self, estado_confirmado, fechaHora, empleadoLog):
-        print("confirmando evento")
-        self.estadoActual = estado_confirmado
-        self.buscarCambioEstadoEvento(fechaHora, empleadoLog)
-        return self
-
 
     def buscarCambioEstadoEvento(self, fechaHora,empleadoLog):
         for cambio in self.cambioEstado:
             if cambio.esUltimo():
                 cambio.setFechaHoraFin(fechaHora)
         self.crearCambioEstado(self.estadoActual, fechaHora,empleadoLog)
-    
 
     def crearCambioEstado(self, estadoActual, fechaHora,empleadoLog):
         nuevo_cambio = CambioEstado(
@@ -99,7 +90,6 @@ class EventoSismico:
         self.cambioEstado.append(nuevo_cambio)
         print("Cambio hecho")
           
-
     def buscarDatosSismicosRegistrados(self):
         print("estoy en buscar datos sismicos registrados de evento 2")
         series = []
@@ -113,15 +103,25 @@ class EventoSismico:
         for serie in self.serieTemporal:
             series.append(serie.getSerieTemporal())
         return series
+
+    def getFechaHoraFin(self):
+        return self.fechaHoraFin
     
+    
+    #Método añadido para alternativa 1: modificar datos   
     def actualizarDatos(self, alcance, clasificacion, origen):
         self.alcanceSismo.setNombre(alcance)
         self.clasificacion.setNombre(clasificacion)
         self.origenDeCreacion.setNombre(origen)
 
-    def getFechaHoraFin(self):
-        return self.fechaHoraFin
+    #Método añadidio por alternativa 2: confirmar evento
+    def confirmar(self, estado_confirmado, fechaHora, empleadoLog):
+        print("confirmando evento")
+        self.estadoActual = estado_confirmado
+        self.buscarCambioEstadoEvento(fechaHora, empleadoLog)
+        return self
 
+    #Método añadido para listar eventos y comprobar funcionalidad del sistema
     def datosEventos(self):
         datos = {
             "fechaHoraOcurrencia": self.getFechaHoraOcurrencia(),

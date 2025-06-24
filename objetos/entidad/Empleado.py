@@ -11,5 +11,6 @@ class Empleado:
     def esTuUsuario(self, nombre_usuario):
         return self.usuario.getNombre() == nombre_usuario
     
+    #Método añadido para listar eventos y comprobar funcionalidad del sistema
     def getNombre(self):
         return self.nombre

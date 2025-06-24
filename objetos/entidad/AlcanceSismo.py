@@ -7,6 +7,6 @@ class AlcanceSismo:
         print("Saque nombre alcance 4")
         return self.nombre
     
-    #Método que se agrega por alternativa 1
+    #Método que se agrega por alternativa 1: modificar datos
     def setNombre(self,alcance):
         self.nombre = alcance
