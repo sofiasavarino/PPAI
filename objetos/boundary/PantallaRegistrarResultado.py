@@ -347,10 +347,13 @@ class PantallaRegistrarResultado:
 
 
     def ingresarSeleccion(self, opcion, ventana):
-        self.gestor.tomarSeleccion(opcion)
-        ventana.destroy()
-        self.gestor.buscarEventosAutoDetectados()
-
+        if self.gestor.tomarSeleccion(opcion):
+            ventana.destroy()
+            self.gestor.buscarEventosAutoDetectados()
+        else:
+            self.opcModificarDatos(rta=True)
+            self.btn_guardar.config(state="normal")
+            
 
     #Método añadido para mostrar todos los eventos(con todos sus datos) y verificar la funcionalidad del código
     def mostrar_lista_eventos(self):

@@ -10,3 +10,4 @@ class AlcanceSismo:
     #Método que se agrega por alternativa 1: modificar datos
     def setNombre(self,alcance):
         self.nombre = alcance
+        

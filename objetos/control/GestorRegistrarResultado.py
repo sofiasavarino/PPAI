@@ -136,12 +136,12 @@ class GestorRegistrarResultado:
 
 
     def tomarSeleccion(self, seleccion):
-        print("se tomo seleccion de botn")
-        self.validarExistencia(seleccion)
+        if not self.validarExistencia(seleccion):
+            messagebox.showwarning("Advertencia", "Faltan datos obligatorios del evento o no se seleccionó una acción.")
+            return False
         self.buscarEmpleadoLogueado()
         self.fechaHoraOcurrenciaEvento = self.obtenerFechaHora()
 
-        # 🧠 Tomar acción según el tipo
         if seleccion == "Rechazar":
             print("se guardo opc rechazar")
             self.buscarEstadoRechazado(self.estado)
@@ -156,22 +156,25 @@ class GestorRegistrarResultado:
             print("evento derivado")
 
         self.finCU()
+        return True
 
 
     def validarExistencia(self, seleccion):
-    # Verifica que el evento y sus atributos clave existan
+        self.accionSeleccionada = seleccion
+
         if (
             self.eventoSismicoSeleccionado is not None and
-            self.eventoSismicoSeleccionado.valorMagnitud is not None and
-            self.eventoSismicoSeleccionado.alcanceSismo is not None and
-            self.eventoSismicoSeleccionado.origenDeCreacion is not None and
-            hasattr(self, 'accionSeleccionada') and
-            self.accionSeleccionada is not None
+            self.eventoSismicoSeleccionado.valorMagnitud not in [None, ""] and
+            self.eventoSismicoSeleccionado.alcanceSismo.getNombre().strip() != "" and
+            self.eventoSismicoSeleccionado.origenDeCreacion.getNombre().strip() != "" and
+            self.eventoSismicoSeleccionado.clasificacion.getNombre().strip() !="" and
+            self.accionSeleccionada not in [None, ""]
         ):
             return True
         else:
-            print("Faltan datos obligatorios del evento o no se seleccionó una acción.")
+            print("❌ FALTAN DATOS OBLIGATORIOS")
             return False
+
 
 
     def buscarEstadoRechazado(self,estado):

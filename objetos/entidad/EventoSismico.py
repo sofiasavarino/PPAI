@@ -104,10 +104,11 @@ class EventoSismico:
             series.append(serie.getSerieTemporal())
         return series
 
+
     def getFechaHoraFin(self):
         return self.fechaHoraFin
     
-    
+
     #Método añadido para alternativa 1: modificar datos   
     def actualizarDatos(self, alcance, clasificacion, origen):
         self.alcanceSismo.setNombre(alcance)
