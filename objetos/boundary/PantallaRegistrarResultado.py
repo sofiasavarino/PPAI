@@ -100,7 +100,7 @@ class PantallaRegistrarResultado:
 
     def opcSeleccionarEvento(self, eventos, idx):
         self.evento_dict = eventos[idx]
-        evento_obj = self.evento_dict.get("objeto")  # Obtiene el objeto real
+        evento_obj = self.evento_dict.get("objeto")  # Acá se obtiene el objeto real
         if evento_obj is None:
             messagebox.showerror("Error", "No se encontró el objeto EventoSismico en el diccionario.")
             return
@@ -122,62 +122,37 @@ class PantallaRegistrarResultado:
         series = detalleEventoSismico[3]
 
         fila = 3
-        tk.Label(ventana,text="Alcance:",font=('Arial', 16, 'bold'),bg="#654321",fg="#F5F5DC",anchor="w",width=20,relief="solid",bd=0
-        ).grid(row=fila, column=0, sticky="w", padx=5, pady=5)
+        tk.Label(ventana,
+                 text="Alcance:",
+                 font=('Arial', 16, 'bold'),bg="#654321",fg="#F5F5DC",anchor="w",width=20,relief="solid",bd=0).grid(row=fila, column=0, sticky="w", padx=5, pady=5)
 
-        self.entry_alcanceSismo = tk.Entry(ventana, width=40,
-                                   disabledbackground="#e0e0e0",
-                                   disabledforeground="#654321")
+        self.entry_alcanceSismo = tk.Entry(ventana, width=40,disabledbackground="#e0e0e0",disabledforeground="#654321")
         self.entry_alcanceSismo.insert(0, str(alcanceSismo))
         self.entry_alcanceSismo.config( state="disabled")
         self.entry_alcanceSismo.grid(row=fila, column=1, sticky="w", padx=5, pady=5)
         fila += 1
 
-        tk.Label(
-            ventana,
-            text="Clasificación:",
-            font=('Arial', 16, 'bold'),
-            bg="#654321",
-            fg="#F5F5DC",
-            anchor="w",
-            width=20,
-            relief="solid",
-            bd=0
-        ).grid(row=fila, column=0, sticky="w", padx=5, pady=5)
+        tk.Label(ventana,
+                text="Clasificación:",
+                font=('Arial', 16, 'bold'),bg="#654321",fg="#F5F5DC",anchor="w",width=20,relief="solid",bd=0).grid(row=fila, column=0, sticky="w", padx=5, pady=5)
         self.entry_clasificacion = tk.Entry(ventana, width=40, disabledbackground="#e0e0e0", disabledforeground="#654321")
         self.entry_clasificacion.insert(0, str(clasificacion))
         self.entry_clasificacion.config(state="disabled")
         self.entry_clasificacion.grid(row=fila, column=1, sticky="w", padx=5, pady=5)
         fila += 1
 
-        tk.Label(
-            ventana,
-            text="Origen:",
-            font=('Arial', 16, 'bold'),
-            bg="#654321",
-            fg="#F5F5DC",
-            anchor="w",
-            width=20,
-            relief="solid",
-            bd=0
-        ).grid(row=fila, column=0, sticky="w", padx=5, pady=5)
+        tk.Label(ventana,
+                text="Origen:",
+                font=('Arial', 16, 'bold'),bg="#654321",fg="#F5F5DC",anchor="w",width=20,relief="solid",bd=0).grid(row=fila, column=0, sticky="w", padx=5, pady=5)
         self.entry_origen = tk.Entry(ventana, width=40,  disabledbackground="#e0e0e0", disabledforeground="#654321")
         self.entry_origen.insert(0, str(origenSismo))
         self.entry_origen.config( state="disabled")
         self.entry_origen.grid(row=fila, column=1, sticky="w", padx=5, pady=5)
         fila += 1
 
-        tk.Label(
-            ventana,
-            text="Series:",
-            font=('Arial', 16, 'bold'),
-            bg="#654321",
-            fg="#F5F5DC",
-            anchor="w",
-            width=20,
-            relief="solid",
-            bd=0
-        ).grid(row=fila, column=0, sticky="nw", padx=5, pady=5)
+        tk.Label(ventana,
+                text="Series:",
+                font=('Arial', 16, 'bold'),bg="#654321",fg="#F5F5DC",anchor="w",width=20,relief="solid",bd=0).grid(row=fila, column=0, sticky="nw", padx=5, pady=5)
          # Construir el string de series
         series_text = ""
         for estacion, muestras in series:
@@ -186,47 +161,23 @@ class PantallaRegistrarResultado:
                 series_text += f"  - {muestra['denominacion']} ({muestra['unidad']}): {muestra['valor']}\n"
             series_text += "\n"
 
-        tk.Label(
-            ventana,
-            text="Series:",
-            font=('Arial', 16, 'bold'),
-            bg="#654321",
-            fg="#F5F5DC",
-            anchor="nw",
-            width=20,
-            relief="solid",
-            bd=0,
-            justify="left"
-        ).grid(row=fila, column=0, sticky="nw", padx=5, pady=5)
-        tk.Label(
-            ventana,
-            text=series_text,
-            bg="#654321",
-            fg="#F5F5DC",
-            anchor="nw",
-            width=40,
-            relief="solid",
-            bd=2,
-            justify="left"
-        ).grid(row=fila, column=1, sticky="w", padx=5, pady=5)
-        self.btn_guardar = tk.Button(
-            ventana,
+        tk.Label(ventana,
+                text="Series:",
+                font=('Arial', 16, 'bold'),bg="#654321",fg="#F5F5DC",anchor="nw",width=20,relief="solid",bd=0,justify="left").grid(row=fila, column=0, sticky="nw", padx=5, pady=5)
+        tk.Label(ventana,
+                text=series_text,bg="#654321",fg="#F5F5DC",anchor="nw",width=40,relief="solid",bd=2,justify="left").grid(row=fila, column=1, sticky="w", padx=5, pady=5)
+        
+        self.btn_guardar = tk.Button(ventana,
             text="Guardar cambios",
-            font=("Arial", 12, "bold"),
-            bg="#F5F5DC",
-            fg="#654321",
-            activebackground="#654321",
-            activeforeground="#654321",
+            font=("Arial", 12, "bold"),bg="#F5F5DC",fg="#654321",activebackground="#654321",activeforeground="#654321",
             relief=tk.FLAT,   # Quita el efecto de relieve
             bd=0,             # Grosor del borde en 0
             highlightthickness=0,  # Elimina borde de foco
             highlightbackground="#F5F5DC",  # Color del fondo del borde de foco (por si lo muestra igual)
             highlightcolor="#F5F5DC",
-            state="disabled",  # 👈 Deshabilitado al principio
-            command=self.guardarCambiosEvento
-            
-    
-        )
+            state="disabled", 
+            command=self.guardarCambiosEvento)
+        
         self.btn_guardar.grid(row=fila + 1, column=1, sticky="e", padx=10, pady=10)
         self.habilitarYSolicitarOpciones(ventana)
         ventana.update_idletasks()
@@ -285,12 +236,7 @@ class PantallaRegistrarResultado:
         btn_aceptar = tk.Button(
             btn_frame,
             text="Confirmar",
-            width=18,
-            font=("Arial", 12, "bold"),
-            bg="#023C0C",
-            fg="#654321",
-            activebackground="#654321",
-            activeforeground="#654321",
+            width=18,font=("Arial", 12, "bold"),bg="#023C0C",fg="#654321",activebackground="#654321",activeforeground="#654321",
             relief=tk.FLAT,   # Quita el efecto de relieve
             bd=0,             # Grosor del borde en 0
             highlightthickness=0,  # Elimina borde de foco
@@ -306,12 +252,7 @@ class PantallaRegistrarResultado:
         btn_rechazar = tk.Button(
             btn_frame,
             text="Rechazar",
-            width=18,
-            font=("Arial", 12, "bold"),
-            bg="#DA6363",
-            fg="#654321",
-            activebackground="#654321",
-            activeforeground="#654321",
+            width=18,font=("Arial", 12, "bold"),bg="#DA6363",fg="#654321",activebackground="#654321",activeforeground="#654321",
             relief=tk.FLAT,   # Quita el efecto de relieve
             bd=0,             # Grosor del borde en 0
             highlightthickness=0,  # Elimina borde de foco
@@ -327,12 +268,7 @@ class PantallaRegistrarResultado:
         btn_derivar = tk.Button(
             btn_frame,
             text="Solicitar revisión a experto",
-            width=18,
-            font=("Arial", 12, "bold"),
-            bg="#2DB6DC",
-            fg="#654321",
-            activebackground="#654321",
-            activeforeground="#654321",
+            width=18,font=("Arial", 12, "bold"),bg="#2DB6DC",fg="#654321",activebackground="#654321",activeforeground="#654321",
             relief=tk.FLAT,   # Quita el efecto de relieve
             bd=0,             # Grosor del borde en 0
             highlightthickness=0,  # Elimina borde de foco
@@ -364,19 +300,24 @@ class PantallaRegistrarResultado:
         else:
             for i, e in enumerate(eventos, start=1):
                 texto += (
-                    f"{i}. Fecha Inicio: {e['fechaHoraOcurrencia']}\n"
+                    f"              DATOS DEL EVENTO {i}\n\n"
+                    f"   Fecha Inicio: {e['fechaHoraOcurrencia']}\n"
                     f"   Fecha fin: {e.get('fechaHoraFin') or '-'}\n"
                     f"   Epicentro: ({e['latitudEpicentro']}, {e['longitudEpicentro']})\n"
                     f"   Hipocentro: ({e['latitudHipocentro']}, {e['longitudHipocentro']})\n"
                     f"   Magnitud: {e['valorMagnitud']}\n"
-                    f"   Estado Actual: {str(e['estado'])}\n"
                     f"   Alcance Sismo: {e.get('alcanceSismo', '-')}\n"
                     f"   Origen Sismo: {e.get('origenSismo', '-')}\n"
-                    f"   Clasificación: {e.get('clasificacion', '-')}\n"
-                    f"   Estado anterior: {e.get('ultimoEstado', '-')}\n\n"
+                    f"   Clasificación: {e.get('clasificacion', '-')}\n\n"
+
+                    f"   DATOS DE ESTADO Y CAMBIO DE ESTADO \n\n"
                     f"   Fecha/Hora inicio cambio de estado: {e['cambioEstadoFechaHora']}\n"
                     f"   Fecha/Hora fin cambio de estado: {e.get('fechaHoraFin') or '-'}\n"
-                    f"   Responsable: {e['cambioEstadoResponsable']}\n\n"
+                    f"   Responsable cambio de estado: {e['cambioEstadoResponsable']}\n"
+                    f"   Estado Actual: {str(e['estado'])}\n"
+                    f"   Estado anterior: {e.get('ultimoEstado', '-')}\n\n"
+                    f" ------------------------------------------------------\n\n"
+
                 )
 
         # Crear ventana nueva

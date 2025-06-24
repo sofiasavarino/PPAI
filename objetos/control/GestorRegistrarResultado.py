@@ -50,7 +50,6 @@ class GestorRegistrarResultado:
            
     def seleccionarEvento(self, evento_sismico):
         self.eventoSismicoSeleccionado = evento_sismico
-
         self.buscarEstadoBloqueados(self.estado)
 
         # llamados al resto de funciones
@@ -78,7 +77,6 @@ class GestorRegistrarResultado:
                 break
         else:
             print("no se encontro el empleado")
-
 
 
     def obtenerFechaHora(self):
@@ -161,7 +159,6 @@ class GestorRegistrarResultado:
 
     def validarExistencia(self, seleccion):
         self.accionSeleccionada = seleccion
-
         if (
             self.eventoSismicoSeleccionado is not None and
             self.eventoSismicoSeleccionado.valorMagnitud not in [None, ""] and
@@ -172,9 +169,8 @@ class GestorRegistrarResultado:
         ):
             return True
         else:
-            print("❌ FALTAN DATOS OBLIGATORIOS")
+            print("FALTAN DATOS OBLIGATORIOS")
             return False
-
 
 
     def buscarEstadoRechazado(self,estado):
