@@ -14,7 +14,6 @@ class PantallaRegistrarResultado:
         self.root.state('zoomed')  # Pantalla completa al iniciar
         self.root.focus_force()
 
-
         # Atributos propios:
         self.btn_iniciar = None
         self.btnSeleccionarEvento = None
@@ -22,46 +21,29 @@ class PantallaRegistrarResultado:
         self.btnMapaSismico = None
         self.btnModificacionDatos = None
         self.listaSeriesTemporales = None
-
-
+        self.btnIngresarOpcion = None
+        self.evento_dict = None
+        self.btnListar_eventos = None
 
         # Título principal grande
         self.titulo = tk.Label(
             self.root,
-            text="Sistema de Gestión de Eventos Sísmicos",
-            font=("Arial", 28, "bold"),
-            bg="#F5F5DC",
-            fg="#654321"
-        )
+            text="Sistema de Gestión de Eventos Sísmicos",font=("Arial", 28, "bold"),bg="#F5F5DC",fg="#654321")
         self.titulo.pack(pady=30)
-         # Cargar la imagen PNG
+        
         self.logo_img = tk.PhotoImage(file="/Users/sofiasavarino/Downloads/Materias 3ro/DSI/CODIGO_git/PPAI/objetos/img-principal.png")
         # Mostrar la imagen en la ventana principal
         self.logo_label = tk.Label(self.root, image=self.logo_img, bg="#232946")
         self.logo_label.pack(pady=20)
 
 
-        #No seria grilla, es mas facil hacerlo con botones independientes
-        #self.grillOpciones = None
-        self.btnIngresarOpcion = None
-        self.evento_dict = None
-        self.btnListar_eventos = None
-
-
-
     def opcRegistrarResultado(self):
-        # Habilita el botón para registrar resultado manual
         if not self.btn_iniciar:
             self.btn_iniciar = tk.Button(
                 self.root,
                 text="Registrar resultado manual",
                 command=self.habilitar,
-                font=("Arial", 16, "bold"),
-                bg="#654321",
-                fg="#654321",
-                relief=tk.FLAT,
-                bd = 0
-            )
+                font=("Arial", 16, "bold"),bg="#654321",fg="#654321",relief=tk.FLAT,bd = 0)
             self.btn_iniciar.pack(pady=20)
         else:
             self.btn_iniciar.config(state="normal")
@@ -70,13 +52,7 @@ class PantallaRegistrarResultado:
             self.btnListar_eventos = tk.Button(
                 self.root,
                 text="Listar Todos los Eventos sismicos",
-                command=self.mostrar_lista_eventos,
-                font=("Arial", 16, "bold"),
-                bg="#654321",
-                fg="#654321",
-                relief=tk.FLAT,
-                bd = 0
-            )
+                command=self.mostrar_lista_eventos,font=("Arial", 16, "bold"),bg="#654321",fg="#654321",relief=tk.FLAT,bd = 0)
             self.btnListar_eventos.pack(pady=20)
         else:
             self.btnListar_eventos.config(state="normal")
@@ -87,7 +63,6 @@ class PantallaRegistrarResultado:
 
 
     def presentarEventos(self, eventos_auto_detectados):
-        # Limpia widgets anteriores excepto el título y el botón principal
         for widget in self.root.winfo_children():
             if widget not in [self.titulo, self.btnListar_eventos]:
                 widget.destroy()
@@ -95,10 +70,7 @@ class PantallaRegistrarResultado:
             tk.Label(
                 self.root,
                 text="Seleccione un evento:",
-                font=("Arial", 18, "bold"),
-                bg="#F5F5DC",
-                fg="#654321"
-            ).pack(pady=10)
+                font=("Arial", 18, "bold"),bg="#F5F5DC",fg="#654321").pack(pady=10)
             for idx, evento in enumerate(eventos_auto_detectados):
                 texto = (
                     f"Evento {idx+1}:\n"
@@ -111,10 +83,7 @@ class PantallaRegistrarResultado:
                 )
                 frame = tk.Frame(self.root, relief=tk.RIDGE, borderwidth=2, bg="#F5F5DC")
                 frame.pack(fill=tk.X, padx=40, pady=10)
-                tk.Label(frame, text=texto, justify=tk.LEFT, anchor="w", font=("Consolas", 15),
-                    bg="#F5F5DC",
-                    fg="#000000"
-                ).pack(side=tk.LEFT, padx=10, pady=10)
+                tk.Label(frame, text=texto, justify=tk.LEFT, anchor="w", font=("Consolas", 15),bg="#F5F5DC",fg="#000000").pack(side=tk.LEFT, padx=10, pady=10)
 
                 btn = tk.Button(frame, text="Seleccionar",
                     command=lambda i=idx: self.opcSeleccionarEvento(eventos_auto_detectados, i),
@@ -123,8 +92,7 @@ class PantallaRegistrarResultado:
                     bd=0,             # Grosor del borde en 0
                     highlightthickness=0,  # Elimina borde de foco
                     highlightbackground="#F5F5DC",  # Color del fondo del borde de foco (por si lo muestra igual)
-                    highlightcolor="#F5F5DC"
-                    )
+                    highlightcolor="#F5F5DC")
                 btn.pack(side=tk.RIGHT, padx=15, pady=15)
         else:
             messagebox.showinfo("Sin eventos", "No hay eventos sísmicos para revisar.")
@@ -136,22 +104,17 @@ class PantallaRegistrarResultado:
         if evento_obj is None:
             messagebox.showerror("Error", "No se encontró el objeto EventoSismico en el diccionario.")
             return
-        #messagebox.showinfo("Evento seleccionado", f"Seleccionaste el evento {idx+1}")
         self.gestor.seleccionarEvento(evento_obj)
 
 
     def mostrarDatosEventoSismico(self, detalleEventoSismico):
-
         ventana = tk.Toplevel(self.root)
         ventana.title("Detalle del Evento Sísmico")
         ventana.geometry("700x600")
         ventana.configure(bg="#654321")
 
         # Título principal
-        tk.Label(ventana,text="Detalle de Evento Sismico",font=("Arial", 28, "bold"),
-            bg="#654321",
-            fg="#F5F5DC",
-        ).grid(row=0, column=0, columnspan=2, padx=10, pady=20)
+        tk.Label(ventana,text="Detalle de Evento Sismico",font=("Arial", 28, "bold"),bg="#654321",fg="#F5F5DC").grid(row=0, column=0, columnspan=2, padx=10, pady=20)
 
         alcanceSismo = detalleEventoSismico[0]
         clasificacion = detalleEventoSismico[1]

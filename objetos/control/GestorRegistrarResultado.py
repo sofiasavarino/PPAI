@@ -13,8 +13,6 @@ class GestorRegistrarResultado:
         self.eventoConfirmado = None
         self.fechaHoraOcurrenciaEvento = None
         self.clasificacionEvento = None
-
-        #agregar al diagrama de clases:
         self.empleadoLogueado = None
         self.accionSeleccionada = None
 
@@ -40,14 +38,14 @@ class GestorRegistrarResultado:
                 datosEvento = evento.obtenerDatos()
                 datosEvento["objeto"] = evento
                 self.eventoAutoDetectado.append(datosEvento)
+                
         self.ordenarPorFechayHora(self.eventoAutoDetectado)
         self.pantalla.presentarEventos(self.eventoAutoDetectado)
         return self.eventoAutoDetectado
 
 
     def ordenarPorFechayHora(self,eventoAutoDetectado):
-        print("eventoAutoDetectado:", eventoAutoDetectado)
-        eventoAutoDetectado.sort(key=lambda x: x["fechaHoraOcurrencia"])
+        return eventoAutoDetectado.sort(key=lambda x: x["fechaHoraOcurrencia"])
 
            
     def seleccionarEvento(self, evento_sismico):
